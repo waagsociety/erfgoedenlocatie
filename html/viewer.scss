@@ -1,0 +1,145 @@
+/* css for erfgoed en locatie viewer */
+
+/* colors */
+$background_color: #ccc;
+$panel_color: #fff;
+
+/* font */
+
+/* layout */
+//everything will be relative to root size..
+$root_width: 1024px;
+$root_height: 768px;
+$margin_default: 10px;
+$pager_height: 80px;
+
+//use golden ratio to split panels
+//$gr: 1.6180339887;
+$gr: 1.6;//aproximation for absolute pixels
+
+$right_width: $root_width * (1/$gr);
+$left_width: $root_width - $right_width;
+
+//height of bottom zone
+$bottom_height: ($root_height - $left_width) / 2;
+
+body
+{
+	background-color: $background-color;
+}
+
+#rootContainer 
+{
+	width: $root_width;
+	height: $root_height;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: $margin_default;
+}
+
+#leftContainer
+{
+	float: left;
+	width: $left_width;
+        height: $root_height;
+}
+
+#rightContainer
+{
+	float: right;
+	width: $right_width;
+	height: $root_height;
+}
+
+//style the panel labels
+.label
+{
+	font: {
+		family: 'Source Sans Pro', sans-serif;
+		size: 18px;
+	}
+	color: #484C55;
+	width: 100%;
+
+}
+
+@mixin panel{
+	text-align: center;
+	background: $panel_color;
+}
+
+#mapPanel
+{
+	@include panel;
+	width: $left_width - $margin_default;
+	height: $left_width - ($margin_default * 2);
+	margin: $margin_default;
+}
+
+
+#collectionsPanel
+{
+	@include panel;
+	width: $left_width - $margin_default;
+	height: $bottom_height - $margin_default; 	
+	margin: $margin_default;
+}
+
+#subjectPanel
+{
+	@include panel;
+	width: $left_width - $margin_default;
+	height: $bottom_height - $margin_default;
+	margin: $margin_default;
+}
+
+#resultsPanel
+{
+	@include panel;
+	
+	$panel_width: $right_width - ($margin_default * 2);
+	$panel_height: $root_height - $bottom_height - ($margin_default * 2);	
+	
+	position: relative;
+	width: $panel_width;
+	height: $panel_height + $pager_height;//extend for controls 
+	margin: $margin_default;
+
+	//create a grid of 9 tiles (3x3)	
+	$rows: 3;
+	$columns: 3;
+
+	$margin_tile: $margin_default * 1;
+
+	$tile_width: ($panel_width - (($columns + 1) * $margin_tile))  / $columns;
+	$tile_height: ($panel_height - (($rows + 1) * $margin_tile)) / $rows;
+
+	@for $i from 1 through $rows
+	{
+		$x: $margin_tile + (($i - 1)*($tile_width + $margin_tile));
+		@for $j from 1 through $columns
+		{
+			$y: $margin_tile + (($j - 1) * ($tile_height + $margin_tile));
+			$index: (($j - 1) * $columns) + ($i - 1);
+			
+			.tile-#{$index}
+			{
+				position: absolute;
+				background-color: $background_color;
+				width: $tile_width;
+				height: $tile_height;
+				left: $x;
+				top: $y;
+			}
+		}
+	}
+}
+
+#timePanel
+{
+	@include panel;
+	width: $right_width - ($margin_default * 2);
+	height: $bottom_height - $margin_default - $pager_height;
+	margin: $margin_default;
+}
+
