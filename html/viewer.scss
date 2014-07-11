@@ -11,7 +11,6 @@ $panel_color: #fff;
 $root_width: 1024px;
 $root_height: 768px;
 $margin_default: 10px;
-$pager_height: 80px;
 
 //use golden ratio to split panels
 //$gr: 1.6180339887;
@@ -22,6 +21,7 @@ $left_width: $root_width - $right_width;
 
 //height of bottom zone
 $bottom_height: ($root_height - $left_width) / 2;
+$pager_height: ($bottom_height / 2) - $margin_default;
 
 body
 {
@@ -54,6 +54,10 @@ body
 //style the panel labels
 .label
 {
+	position: absolute;
+	top: 50%;
+	height: 1em;
+	margin-top: -.5em;
 	font: {
 		family: 'Source Sans Pro', sans-serif;
 		size: 18px;
@@ -64,6 +68,7 @@ body
 }
 
 @mixin panel{
+	position: relative;
 	text-align: center;
 	background: $panel_color;
 }
@@ -133,6 +138,17 @@ body
 			}
 		}
 	}
+}
+
+#pager
+{
+	$panel_width: $right_width - ($margin_default * 2);
+	$panel_height: $root_height - $bottom_height - ($margin_default * 2);	
+	
+	position: absolute;
+	width: $panel_width;
+	height: $pager_height;
+	top: $panel_height;
 }
 
 #timePanel

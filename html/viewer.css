@@ -23,12 +23,17 @@ body {
   height: 768px; }
 
 .label {
+  position: absolute;
+  top: 50%;
+  height: 1em;
+  margin-top: -.5em;
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 18px;
   color: #484C55;
   width: 100%; }
 
 #mapPanel {
+  position: relative;
   text-align: center;
   background: white;
   width: 374px;
@@ -36,6 +41,7 @@ body {
   margin: 10px; }
 
 #collectionsPanel {
+  position: relative;
   text-align: center;
   background: white;
   width: 374px;
@@ -43,6 +49,7 @@ body {
   margin: 10px; }
 
 #subjectPanel {
+  position: relative;
   text-align: center;
   background: white;
   width: 374px;
@@ -50,11 +57,12 @@ body {
   margin: 10px; }
 
 #resultsPanel {
+  position: relative;
   text-align: center;
   background: white;
   position: relative;
   width: 620px;
-  height: 636px;
+  height: 642px;
   margin: 10px; }
   #resultsPanel .tile-0 {
     position: absolute;
@@ -120,9 +128,16 @@ body {
     left: 416.66667px;
     top: 374px; }
 
+#pager {
+  position: absolute;
+  width: 620px;
+  height: 86px;
+  top: 556px; }
+
 #timePanel {
+  position: relative;
   text-align: center;
   background: white;
   width: 620px;
-  height: 102px;
+  height: 96px;
   margin: 10px; }
