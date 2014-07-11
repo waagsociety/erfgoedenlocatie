@@ -29,6 +29,12 @@ body
 	background-color: $background-color;
 }
 
+button, input, select, textarea 
+{
+	font-familiy: inherit;
+	font-size: 100%;
+}
+
 #rootContainer 
 {
 	width: $root_width;
@@ -66,6 +72,31 @@ body
 	color: $font_color;
 	width: 100%;
 
+}
+
+.list
+{
+	font: {
+		family: 'Source Sans Pro', sans-serif;
+		size: 1em;
+	}
+	color: $font_color;
+	text-align: left;
+	padding-left: $margin_default * 2;
+	padding-top: $margin_default * 2;
+}
+
+.panelTitle
+{
+	font: {
+		family: 'Source Sans Pro', sans-serif;
+		size: 1.2em;
+		weight: bold;
+	}
+	color: $font_color;
+	text-align: left;
+	padding-left: $margin_default * 2;
+	padding-top: $margin_default * 2;
 }
 
 @mixin panel{
@@ -178,6 +209,14 @@ body
 	width: $panel_width;
 	height: $pager_height;
 	top: $panel_height;
+
+	a
+	{
+		font-weight: bold;
+		color: $font-color;
+		text-decoration: none;
+
+	}
 }
 
 #timePanel

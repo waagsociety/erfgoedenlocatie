@@ -8,14 +8,31 @@
 <div id="rootContainer">
 	<div id="leftContainer">
 		<div id="mapPanel">
-			<div class="label">map</div>
+			<div class="label">[map]</div>
 		</div>
 		<div id="collectionsPanel">
-			<div class="label">collections</div>
+			<div class="panelTitle">
+				Collecties	
+			</div>
+			<div class="list">
+			<form>
+				<input name="molens" type="checkbox" checked="checked">&nbsp;http://data.metamatter.nl/molens/</input>
+				<br/>
+				<input name="bbz" type="checkbox">&nbsp;http://datalab.bibliotheek.nl/bbz/</input>
+			</form>
+			</div>
 		</div>
 
 		<div id="subjectPanel">
-			<div class="label">subject</div>
+			<div class="panelTitle">
+				Vrij zoeken
+			</div>
+			<div class="list">	
+				<form>
+					<input type="search" />
+					<input type="submit" value="Zoek">
+				</form>
+			</div>
 		</div>
 	</div>
 	<div id="rightContainer">
@@ -57,11 +74,11 @@
 				<div class="caption">De Hoop</div>
 			</div>
 			<div id="pager">
-				<div class="label">&lt;&lt;&nbsp;&nbsp;[1-8 of 55]&nbsp;&nbsp;&gt;&gt;</div>
+				<div class="label"><a href="javascript:void();">&lt;&lt;</a>&nbsp;&nbsp;11-19 of 55&nbsp;&nbsp;<a href="javascript:void();">&gt;&gt;</a></div>
 			</div>
 		</div>
 		<div id="timePanel">
-			<div class="label">time</div>
+			<div class="label">[time]</div>
 		</div>
 	</div>
 </div>

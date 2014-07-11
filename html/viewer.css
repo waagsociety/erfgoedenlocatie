@@ -5,6 +5,10 @@
 body {
   background-color: #cccccc; }
 
+button, input, select, textarea {
+  font-familiy: inherit;
+  font-size: 100%; }
+
 #rootContainer {
   width: 1024px;
   height: 768px;
@@ -31,6 +35,23 @@ body {
   font-size: 1em;
   color: #484c55;
   width: 100%; }
+
+.list {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 1em;
+  color: #484c55;
+  text-align: left;
+  padding-left: 20px;
+  padding-top: 20px; }
+
+.panelTitle {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #484c55;
+  text-align: left;
+  padding-left: 20px;
+  padding-top: 20px; }
 
 #mapPanel {
   position: relative;
@@ -156,6 +177,10 @@ body {
   width: 620px;
   height: 86px;
   top: 556px; }
+  #pager a {
+    font-weight: bold;
+    color: #484c55;
+    text-decoration: none; }
 
 #timePanel {
   position: relative;
