@@ -3,7 +3,9 @@
 /* font */
 /* layout */
 body {
-  background-color: #cccccc; }
+  background-color: #cccccc;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 1em; }
 
 button, input, select, textarea {
   font-familiy: inherit;
@@ -37,8 +39,6 @@ button, input, select, textarea {
   width: 100%; }
 
 .list {
-  font-family: 'Source Sans Pro', sans-serif;
-  font-size: 1em;
   color: #484c55;
   text-align: left;
   padding-left: 20px;
@@ -76,6 +76,66 @@ button, input, select, textarea {
   width: 374px;
   height: 182px;
   margin: 10px; }
+
+#detailPanel {
+  position: relative;
+  text-align: center;
+  background: white;
+  position: relative;
+  width: 620px;
+  height: 642px;
+  margin: 10px; }
+  #detailPanel #tile {
+    position: absolute;
+    width: 600px;
+    height: 556px 20px;
+    top: 10px;
+    left: 10px;
+    background-color: #cccccc;
+    line-height: 554px; }
+  #detailPanel #close {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.6em; }
+    #detailPanel #close a {
+      color: #fff; }
+  #detailPanel .full {
+    max-width: 600px;
+    max-height: 556px 20px;
+    height: auto;
+    vertical-align: middle; }
+  #detailPanel .caption {
+    position: absolute;
+    top: 0;
+    left: 375px;
+    width: 215px;
+    height: 554px;
+    font-family: monospace;
+    color: white;
+    font-size: 1.2em;
+    line-height: 1em;
+    text-align: left;
+    padding-left: 10px;
+    background-color: rgba(0, 0, 0, 0.6); }
+  #detailPanel pre {
+    font-size: .7em;
+    text-align: left;
+    width: 100%;
+    white-space: pre-wrap; }
+    #detailPanel pre .key {
+      font-weight: bold;
+      color: white; }
+    #detailPanel pre .value {
+      color: yellow; }
+  #detailPanel a {
+    font-weight: bold;
+    color: #cccccc;
+    text-decoration: none;
+    text-align: right;
+    font-size: .8em; }
 
 #resultsPanel {
   position: relative;
@@ -169,7 +229,8 @@ button, input, select, textarea {
     height: 43px;
     line-height: 43px;
     color: white;
-    font-size: .8em;
+    font-size: 1em;
+    font-family: monospace;
     background-color: rgba(0, 0, 0, 0.6); }
 
 #pager {
