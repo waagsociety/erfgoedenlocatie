@@ -28,8 +28,8 @@ body {
   height: 1em;
   margin-top: -.5em;
   font-family: 'Source Sans Pro', sans-serif;
-  font-size: 18px;
-  color: #484C55;
+  font-size: 1em;
+  color: #484c55;
   width: 100%; }
 
 #mapPanel {
@@ -70,63 +70,86 @@ body {
     width: 193.33333px;
     height: 172px;
     left: 10px;
-    top: 10px; }
+    top: 10px;
+    line-height: 170px; }
   #resultsPanel .tile-3 {
     position: absolute;
     background-color: #cccccc;
     width: 193.33333px;
     height: 172px;
     left: 10px;
-    top: 192px; }
+    top: 192px;
+    line-height: 170px; }
   #resultsPanel .tile-6 {
     position: absolute;
     background-color: #cccccc;
     width: 193.33333px;
     height: 172px;
     left: 10px;
-    top: 374px; }
+    top: 374px;
+    line-height: 170px; }
   #resultsPanel .tile-1 {
     position: absolute;
     background-color: #cccccc;
     width: 193.33333px;
     height: 172px;
     left: 213.33333px;
-    top: 10px; }
+    top: 10px;
+    line-height: 170px; }
   #resultsPanel .tile-4 {
     position: absolute;
     background-color: #cccccc;
     width: 193.33333px;
     height: 172px;
     left: 213.33333px;
-    top: 192px; }
+    top: 192px;
+    line-height: 170px; }
   #resultsPanel .tile-7 {
     position: absolute;
     background-color: #cccccc;
     width: 193.33333px;
     height: 172px;
     left: 213.33333px;
-    top: 374px; }
+    top: 374px;
+    line-height: 170px; }
   #resultsPanel .tile-2 {
     position: absolute;
     background-color: #cccccc;
     width: 193.33333px;
     height: 172px;
     left: 416.66667px;
-    top: 10px; }
+    top: 10px;
+    line-height: 170px; }
   #resultsPanel .tile-5 {
     position: absolute;
     background-color: #cccccc;
     width: 193.33333px;
     height: 172px;
     left: 416.66667px;
-    top: 192px; }
+    top: 192px;
+    line-height: 170px; }
   #resultsPanel .tile-8 {
     position: absolute;
     background-color: #cccccc;
     width: 193.33333px;
     height: 172px;
     left: 416.66667px;
-    top: 374px; }
+    top: 374px;
+    line-height: 170px; }
+  #resultsPanel .thumbnail {
+    max-width: 193.33333px;
+    max-height: 172px;
+    height: auto;
+    vertical-align: middle; }
+  #resultsPanel .caption {
+    position: absolute;
+    top: 129px;
+    width: 193.33333px;
+    height: 43px;
+    line-height: 43px;
+    color: white;
+    font-size: .8em;
+    background-color: rgba(0, 0, 0, 0.6); }
 
 #pager {
   position: absolute;
