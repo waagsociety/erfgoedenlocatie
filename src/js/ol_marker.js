@@ -1,5 +1,5 @@
 var raster = new ol.layer.Tile({
-      source: new ol.source.OSM()
+      source: new ol.source.MapQuest({layer: 'sat'})
     });
     
 var format = new ol.format.WKT();
