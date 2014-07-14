@@ -1,19 +1,91 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <link rel="stylesheet" href="http://ol3js.org/en/master/css/ol.css" type="text/css">
-    <style>
-      .map {
-        height: 400px;
-        width: 100%;
-      }
-    </style>
-    <script src="http://ol3js.org/en/master/build/ol.js" type="text/javascript"></script>
-    <title>OpenLayers 3 example</title>
-  </head>
-  <body>
-    <h2>My Map</h2>
-    <div id="map" class="map"></div>
-    <script src="js/ol3js.js" type="text/javascript"></script>
-  </body>
+<!-- erfgoed en locatie viewer html mockup -->
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="viewer.css">
+<link rel="stylesheet" href="http://ol3js.org/en/master/css/ol.css" type="text/css">
+<script src="http://ol3js.org/en/master/build/ol.js" type="text/javascript"></script>
+
+</head> 
+<body>
+
+<div id="rootContainer">
+	<div id="leftContainer">
+		<div id="mapPanel" class="map">
+			
+		</div>
+		<script src="js/ol_marker.js" type="text/javascript"></script>
+		<div id="collectionsPanel">
+			<div class="panelTitle">
+				Collecties	
+			</div>
+			<div class="list">
+			<form>
+				<input name="molens" type="checkbox" checked="checked">&nbsp;http://data.metamatter.nl/molens/</input>
+				<br/>
+				<input name="bbz" type="checkbox">&nbsp;http://datalab.bibliotheek.nl/bbz/</input>
+			</form>
+			</div>
+		</div>
+
+		<div id="subjectPanel">
+			<div class="panelTitle">
+				Vrij zoeken
+			</div>
+			<div class="list">	
+				<form>
+					<input type="search" />
+					<input type="submit" value="Zoek">
+				</form>
+			</div>
+		</div>
+	</div>
+	<div id="rightContainer">
+		<div id="resultsPanel">
+			<div class="tile-0">
+				<img class="thumbnail" src="http://images.memorix.nl/rce/thumb/800x800/45fd1cc3-cd0b-bb79-66a0-e017f19af4db.jpg" />
+				<div class="caption">De Achtkante Molen</div>
+			</div>
+			<div class="tile-1">
+				<img class="thumbnail" src="http://images.memorix.nl/rce/thumb/400x400/c15935bf-5fcb-21be-ed67-e373ad49133a.jpg" />
+				<div class="caption">Luyensmolen</div>
+			</div>
+			<div class="tile-2">
+				<img class="thumbnail" src="http://images.memorix.nl/rce/thumb/400x400/5d34290c-fcba-a85d-813a-d77b80ba0267.jpg" />
+				<div class="caption">onderslagmolen</div>
+			</div>
+			<div class="tile-3">
+				<img class="thumbnail" src="http://images.memorix.nl/rce/thumb/400x400/bbacb103-03a7-99e9-d4ee-2ca78eb914bd.jpg" />
+				<div class="caption">Geschilderde muurreclame</div>
+			</div>
+			<div class="tile-4">
+				<img class="thumbnail" src="http://images.memorix.nl/rce/thumb/400x400/ad61c552-86f8-417d-9c10-52fdf3670eea.jpg" />
+				<div class="caption">molenrestant</div>
+			</div>
+			<div class="tile-5">
+				<img class="thumbnail" src="http://images.memorix.nl/rce/thumb/400x400/49962584-4214-6577-3526-24fa60e5c7b3.jpg" />
+				<div class="caption">standerdmolen</div>
+			</div>
+			<div class="tile-6">
+				<img class="thumbnail" src="http://images.memorix.nl/rce/thumb/800x800/0ce8f248-3858-891f-ecd0-c9f38d6a9e2f.jpg" />
+				<div class="caption">korenmolens</div>
+			</div>
+			<div class="tile-7">
+				<img class="thumbnail" src="http://images.memorix.nl/rce/thumb/400x400/57f1e541-a240-8d15-ffb4-74f70aecdcaa.jpg" />
+				<div class="caption">De Drie Waaien</div>
+			</div>
+			<div class="tile-8">
+				<img class="thumbnail" src="http://images.memorix.nl/rce/thumb/400x400/efdf0540-8c17-82e7-0b23-e80ac04991b9.jpg" />
+				<div class="caption">De Hoop</div>
+			</div>
+			<div id="pager">
+				<div class="label"><a href="javascript:void();">&lt;&lt;</a>&nbsp;&nbsp;11-19 of 55&nbsp;&nbsp;<a href="javascript:void();">&gt;&gt;</a></div>
+			</div>
+		</div>
+		<div id="timePanel">
+			<div class="label">[time]</div>
+		</div>
+	</div>
+</div>
+</body>
 </html>
