@@ -142,6 +142,7 @@ button, input, select, textarea
 
 	$tile_width: $panel_width - ($margin_default * 2);
 	$tile_height: $panel_height ($margin_default * 2);	
+
 	position: relative;
 	width: $panel_width;
 	height: $panel_height + $pager_height;//extend for controls 
@@ -321,13 +322,16 @@ button, input, select, textarea
 	width: $panel_width;
 	height: $pager_height;
 	top: $panel_height;
-
-	a
-	{
+	font: {
+		family: 'Source Sans Pro', sans-serif;
+		size: 1em;
+	}
+	
+	a {
 		font-weight: bold;
 		color: $font-color;
 		text-decoration: none;
-
+		size: .8em;
 	}
 }
 

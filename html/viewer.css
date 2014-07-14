@@ -237,11 +237,14 @@ button, input, select, textarea {
   position: absolute;
   width: 620px;
   height: 86px;
-  top: 556px; }
+  top: 556px;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 1em; }
   #pager a {
     font-weight: bold;
     color: #484c55;
-    text-decoration: none; }
+    text-decoration: none;
+    size: .8em; }
 
 #timePanel {
   position: relative;
