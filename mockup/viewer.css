@@ -1,0 +1,252 @@
+/* css for erfgoed en locatie viewer */
+/* colors */
+/* font */
+/* layout */
+body {
+  background-color: #cccccc;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 1em; }
+
+button, input, select, textarea {
+  font-familiy: inherit;
+  font-size: 100%; }
+
+#rootContainer {
+  width: 1024px;
+  height: 768px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px; }
+
+#leftContainer {
+  float: left;
+  width: 384px;
+  height: 768px; }
+
+#rightContainer {
+  float: right;
+  width: 640px;
+  height: 768px; }
+
+.label {
+  position: absolute;
+  top: 50%;
+  height: 1em;
+  margin-top: -.5em;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 1em;
+  color: #484c55;
+  width: 100%; }
+
+.list {
+  color: #484c55;
+  text-align: left;
+  padding-left: 20px;
+  padding-top: 20px; }
+
+.panelTitle {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #484c55;
+  text-align: left;
+  padding-left: 20px;
+  padding-top: 20px; }
+
+#mapPanel {
+  position: relative;
+  text-align: center;
+  background: white;
+  width: 374px;
+  height: 364px;
+  margin: 10px; }
+
+#collectionsPanel {
+  position: relative;
+  text-align: center;
+  background: white;
+  width: 374px;
+  height: 182px;
+  margin: 10px; }
+
+#subjectPanel {
+  position: relative;
+  text-align: center;
+  background: white;
+  width: 374px;
+  height: 182px;
+  margin: 10px; }
+
+#detailPanel {
+  position: relative;
+  text-align: center;
+  background: white;
+  position: relative;
+  width: 620px;
+  height: 642px;
+  margin: 10px; }
+  #detailPanel #tile {
+    position: absolute;
+    width: 600px;
+    height: 556px 20px;
+    top: 10px;
+    left: 10px;
+    background-color: #cccccc;
+    line-height: 554px; }
+  #detailPanel #close {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.6em; }
+    #detailPanel #close a {
+      color: #fff; }
+  #detailPanel .full {
+    max-width: 600px;
+    max-height: 556px 20px;
+    height: auto;
+    vertical-align: middle; }
+  #detailPanel .caption {
+    position: absolute;
+    top: 0;
+    left: 375px;
+    width: 215px;
+    height: 554px;
+    font-family: monospace;
+    color: white;
+    font-size: 1.2em;
+    line-height: 1em;
+    text-align: left;
+    padding-left: 10px;
+    background-color: rgba(0, 0, 0, 0.6); }
+  #detailPanel pre {
+    font-size: .7em;
+    text-align: left;
+    width: 100%;
+    white-space: pre-wrap; }
+    #detailPanel pre .key {
+      font-weight: bold;
+      color: white; }
+    #detailPanel pre .value {
+      color: yellow; }
+  #detailPanel a {
+    font-weight: bold;
+    color: #cccccc;
+    text-decoration: none;
+    text-align: right;
+    font-size: .8em; }
+
+#resultsPanel {
+  position: relative;
+  text-align: center;
+  background: white;
+  position: relative;
+  width: 620px;
+  height: 642px;
+  margin: 10px; }
+  #resultsPanel .tile-0 {
+    position: absolute;
+    background-color: #cccccc;
+    width: 193.33333px;
+    height: 172px;
+    left: 10px;
+    top: 10px;
+    line-height: 170px; }
+  #resultsPanel .tile-3 {
+    position: absolute;
+    background-color: #cccccc;
+    width: 193.33333px;
+    height: 172px;
+    left: 10px;
+    top: 192px;
+    line-height: 170px; }
+  #resultsPanel .tile-6 {
+    position: absolute;
+    background-color: #cccccc;
+    width: 193.33333px;
+    height: 172px;
+    left: 10px;
+    top: 374px;
+    line-height: 170px; }
+  #resultsPanel .tile-1 {
+    position: absolute;
+    background-color: #cccccc;
+    width: 193.33333px;
+    height: 172px;
+    left: 213.33333px;
+    top: 10px;
+    line-height: 170px; }
+  #resultsPanel .tile-4 {
+    position: absolute;
+    background-color: #cccccc;
+    width: 193.33333px;
+    height: 172px;
+    left: 213.33333px;
+    top: 192px;
+    line-height: 170px; }
+  #resultsPanel .tile-7 {
+    position: absolute;
+    background-color: #cccccc;
+    width: 193.33333px;
+    height: 172px;
+    left: 213.33333px;
+    top: 374px;
+    line-height: 170px; }
+  #resultsPanel .tile-2 {
+    position: absolute;
+    background-color: #cccccc;
+    width: 193.33333px;
+    height: 172px;
+    left: 416.66667px;
+    top: 10px;
+    line-height: 170px; }
+  #resultsPanel .tile-5 {
+    position: absolute;
+    background-color: #cccccc;
+    width: 193.33333px;
+    height: 172px;
+    left: 416.66667px;
+    top: 192px;
+    line-height: 170px; }
+  #resultsPanel .tile-8 {
+    position: absolute;
+    background-color: #cccccc;
+    width: 193.33333px;
+    height: 172px;
+    left: 416.66667px;
+    top: 374px;
+    line-height: 170px; }
+  #resultsPanel .thumbnail {
+    max-width: 193.33333px;
+    max-height: 172px;
+    height: auto;
+    vertical-align: middle; }
+  #resultsPanel .caption {
+    position: absolute;
+    top: 129px;
+    width: 193.33333px;
+    height: 43px;
+    line-height: 43px;
+    color: white;
+    font-size: 1em;
+    font-family: monospace;
+    background-color: rgba(0, 0, 0, 0.6); }
+
+#pager {
+  position: absolute;
+  width: 620px;
+  height: 86px;
+  top: 556px; }
+  #pager a {
+    font-weight: bold;
+    color: #484c55;
+    text-decoration: none; }
+
+#timePanel {
+  position: relative;
+  text-align: center;
+  background: white;
+  width: 620px;
+  height: 96px;
+  margin: 10px; }
