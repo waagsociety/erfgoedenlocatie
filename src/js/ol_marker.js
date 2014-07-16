@@ -1,36 +1,44 @@
 function updateMarkers(collection)
 {
-  console.log(collection);
-
+  //console.log(collection);
+  
+  var item;
+  var feature_set = new Array();
+  for(item in collection)
+  {
+	feature_set[item] = new ol.Feature({
+	    geometry: new ol.geom.Point(collection[item].geometry.coordinates)
+		})
+  }
+  
   var raster = new ol.layer.Tile({
     source: new ol.source.OSM()
   });
 
-  var format = new ol.format.WKT();
-  var feature = format.readFeature(
-      'POINT(5.65823792189898622 53.21705934740188582)');
-  feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
-
-  var iconStyle = new ol.style.Style({
+   var iconStyle = new ol.style.Style({
     image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
       src: 'icons/windmill-2_1.png'
     }))
   });
+   
+  var feature;
+  for (feature in feature_set)
+  {
+  feature_set[feature].getGeometry().transform('EPSG:4326', 'EPSG:3857');
+  feature_set[feature].setStyle(iconStyle)};
 
-  feature.setStyle(iconStyle);
 
   var vector = new ol.layer.Vector({
     source: new ol.source.Vector({
-      features: [feature]
+      features: feature_set
     })
   });
 
+  var view = new ol.View({});
   var map = new ol.Map({
     layers: [raster, vector],
-      target: 'mapPanel',
-      view: new ol.View({
-        center: [640696, 7002528],
-      zoom: 9
-      })
-  });
+    target: 'mapPanel',
+    view: view
+	   });
+  view.fitExtent(vector.getSource().getExtent(), map.getSize());
 }
