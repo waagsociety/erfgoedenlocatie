@@ -23,7 +23,13 @@ function updateMarkers(collection)
       src: 'icons/windmill-2_1.png'
     }))
   });
-   
+  
+  var iconSelectStyle = new ol.style.Style({
+    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+      src: 'icons/windmill-selected.png'
+    }))
+  });
+  
   var feature;
   for (feature in feature_set)
   {
@@ -44,4 +50,6 @@ function updateMarkers(collection)
     view: view
 	   });
   view.fitExtent(vector.getSource().getExtent(), map.getSize());
+  map.addInteraction(new ol.interaction.Select({style: iconSelectStyle}));
 }
+
