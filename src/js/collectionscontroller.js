@@ -3,10 +3,22 @@
 // Collections: dit zijn linked data sets.
 // CollectionItems: dit zijn individuele items in een collection
 
-function CollectionsController($scope)
+function CollectionsController($scope, $http)
 {
-          //dummy data
-      $scope.defaultCollection = [
+     
+      //we want to know when the collection changes 
+      //so we can instruct open layers to update the markers.
+      $scope.$watch('defaultCollection', 
+          function(newValue, oldValue)
+          {
+               //calls function in ol_marker.js
+               updateMarkers($scope.defaultCollection);
+          }, 
+          true
+      );
+     
+      //dummy data
+      var dummyCollection = [
       { "type": "Feature", "properties": { "id": 8, "Titel": "De Hoop", "LONG": 3.0, "LAT": 51.0, "PHOTO": "http:\/\/images.memorix.nl\/rce\/thumb\/400x400\/efdf0540-8c17-82e7-0b23-e80ac04991b9.jpg" }, "geometry": { "type": "Point", "coordinates": [ 3.913555902187822, 51.652908190029599 ] } },
 	  { "type": "Feature", "properties": { "id": 9, "Titel": "Wipmolen van het waterschap Kortrijk", "PHOTO": "http:\/\/images.memorix.nl\/rce\/thumb\/800x800\/8da697ae-6406-6b0f-cc9a-e407567095c2.jpg" }, "geometry": { "type": "Point", "coordinates": [4.98922840702733, 52.1699429101379000] } },
 	  { "type": "Feature", "properties": { "id": 10, "Titel": "Wipmolen De Trouwe Wachter", "PHOTO": "http:\/\/images.memorix.nl\/rce\/thumb\/800x800\/9165dd5b-34b8-705d-0128-3196d2831677.jpg" }, "geometry": { "type": "Point", "coordinates": [5.09228324892157, 52.1719710554197000] } },
@@ -21,6 +33,81 @@ function CollectionsController($scope)
       { "type": "Feature", "properties": { "id": 1, "Titel": "Molenrestant", "LONG": 3.0, "LAT": 51.0, "PHOTO": "http:\/\/images.memorix.nl\/rce\/thumb\/400x400\/c15935bf-5fcb-21be-ed67-e373ad49133a.jpg" }, "geometry": { "type": "Point", "coordinates": [ 3.890342966345374, 51.502339427218807 ] } },
       { "type": "Feature", "properties": { "id": 0, "Titel": "De Achtkante Molen", "LONG": 3.0, "LAT": 51.0, "PHOTO": "http:\/\/images.memorix.nl\/rce\/thumb\/800x800\/45fd1cc3-cd0b-bb79-66a0-e017f19af4db.jpg" }, "geometry": { "type": "Point", "coordinates": [ 3.611062331990914, 51.49375913957671 ] } }
      ];
+     
+     $scope.defaultCollection = dummyCollection.splice(0,8);
 
-     updateMarkers($scope.defaultCollection); 
+     //first sparql query
+     //TODO: create factory for building queries.
+     //TODO: create defines for sparql namespaces.
+     var query = 'PREFIX dc:<http://purl.org/dc/elements/1.1/>\n' +
+                 'PREFIX foaf:<http://xmlns.com/foaf/0.1/>\n' +
+                 'PREFIX foaf-metamatter:<http://xmlns.com/foaf/>\n' +
+                 'PREFIX prov:<http://purl.org/net/provenance/ns#>\n' +
+                 'PREFIX dcterms:<http://purl.org/dc/terms/>\n' +
+                 'PREFIX ogcgs:<http://www.opengis.net/ont/geosparql#>\n' +
+                 'PREFIX nco:<http://www.semanticdesktop.org/ontologies/2007/03/22/nco#>\n' +
+                 'CONSTRUCT {?entity ?descriptionproperty ?description; ?imageproperty ?image; ?wktproperty ?wkt}\n' +
+                 ' WHERE {\n' +
+                         '#Molens\n' +
+                         '{ SELECT * WHERE { ?entity ?descriptionproperty ?description; ?imageproperty ?image; nco:locality ?location .\n' + 
+                         'FILTER (?descriptionproperty = dc:description)\n' +
+                         'FILTER (?imageproperty = foaf-metamatter:depiction)\n' +
+                           '} LIMIT 10 }\n' +
+                 'UNION\n' +
+                 '#Beeldbank Zeeland\n' +
+                 '{ SELECT DISTINCT * WHERE { ?entity ?descriptionproperty ?description; ?imageproperty ?image; dcterms:coverage ?coverage . ?coverage ogcgs:hasGeometry ?geometry . ?geometry ?wktproperty ?wkt .\n' +
+                    'FILTER (?descriptionproperty = dcterms:description)\n' +
+                    'FILTER (?imageproperty = foaf:thumbnail)\n' + 
+                    'FILTER (?wktproperty = ogcgs:asWKT)\n' +
+                                    '} LIMIT 10 }\n' +
+     '}';
+
+
+     var url = 'http://erfgoedenlocatie.cloud.tilaa.com/sparql?query=' + encodeURIComponent(query);
+     
+     $http({
+          url: url,
+          method: "GET",
+          headers: {'Content-Type': 'application/ld+json', 'Accept' : 'application/ld+json'}
+     }).success(function (data, status, headers, config) {
+          
+          //create simplified objects for databinding
+          var items = [];
+
+          //parse the data
+          var graph = data['@graph'];
+
+          for(var obj in graph) 
+          {
+               var id = graph[obj]['@id'];
+               
+               var wkt = undefined;
+               if(graph[obj]['http://www.opengis.net/ont/geosparql#asWKT'])
+               {
+                    wkt = graph[obj]['http://www.opengis.net/ont/geosparql#asWKT'][0]['@value'];
+               }
+               
+               var description = undefined;
+               if(graph[obj]['http://purl.org/dc/terms/description'])
+               {
+                    description = graph[obj]['http://purl.org/dc/terms/description'][0]['@value'];
+               }
+               var thumbnail = undefined;
+
+               if(graph[obj]['http://xmlns.com/foaf/0.1/thumbnail'])
+               {
+                    thumbnail = graph[obj]['http://xmlns.com/foaf/0.1/thumbnail'][0];
+               }
+
+               var item = {'id': id, 'location' : wkt, 'description' : description, 'thumbnail' : thumbnail};
+               console.log(item);
+               items.push(item); 
+          }
+          
+          //$scope.defaultCollection = items.splice(0,8);//first eight objects for now
+          //this works but data is still very low quality, pictures do not resolve..
+
+     }).error(function (data, status, headers, config) {
+          console.log(status);
+     });     
 }
