@@ -3,6 +3,26 @@
 // Collections: dit zijn linked data sets.
 // CollectionItems: dit zijn individuele items in een collection
 
+//fast helper functio for reading query
+function readTextFile(file)
+{
+     var rawFile = new XMLHttpRequest();
+     rawFile.open("GET", file, false);
+     rawFile.onreadystatechange = function ()
+     {
+          if(rawFile.readyState === 4)
+          {
+               if(rawFile.status === 200 || rawFile.status == 0)
+               {
+                    var allText = rawFile.responseText;
+                    return allText; 
+               }
+          }
+     }
+     rawFile.send(null);
+}
+
+
 function CollectionsController($scope, $http)
 {
      
@@ -33,9 +53,9 @@ function CollectionsController($scope, $http)
       { "type": "Feature", "properties": { "id": 1, "Titel": "Molenrestant", "LONG": 3.0, "LAT": 51.0, "PHOTO": "http:\/\/images.memorix.nl\/rce\/thumb\/400x400\/c15935bf-5fcb-21be-ed67-e373ad49133a.jpg" }, "geometry": { "type": "Point", "coordinates": [ 3.890342966345374, 51.502339427218807 ] } },
       { "type": "Feature", "properties": { "id": 0, "Titel": "De Achtkante Molen", "LONG": 3.0, "LAT": 51.0, "PHOTO": "http:\/\/images.memorix.nl\/rce\/thumb\/800x800\/45fd1cc3-cd0b-bb79-66a0-e017f19af4db.jpg" }, "geometry": { "type": "Point", "coordinates": [ 3.611062331990914, 51.49375913957671 ] } }
      ];
-     
-     $scope.defaultCollection = dummyCollection.splice(0,8);
 
+     $scope.defaultCollection = dummyCollection.splice(0,8);
+     
      //first sparql query
      //TODO: create factory for building queries.
      //TODO: create defines for sparql namespaces.
@@ -46,22 +66,20 @@ function CollectionsController($scope, $http)
                  'PREFIX dcterms:<http://purl.org/dc/terms/>\n' +
                  'PREFIX ogcgs:<http://www.opengis.net/ont/geosparql#>\n' +
                  'PREFIX nco:<http://www.semanticdesktop.org/ontologies/2007/03/22/nco#>\n' +
-                 'CONSTRUCT {?entity ?descriptionproperty ?description; ?imageproperty ?image; ?wktproperty ?wkt}\n' +
+                 'CONSTRUCT {?entity ?titleproperty ?title; dc:isPartOf ?collection; ?imageproperty ?image; ?wktproperty ?wkt} \n' +
                  ' WHERE {\n' +
                          '#Molens\n' +
-                         '{ SELECT * WHERE { ?entity ?descriptionproperty ?description; ?imageproperty ?image; nco:locality ?location .\n' + 
-                         'FILTER (?descriptionproperty = dc:description)\n' +
+                         '{ SELECT * WHERE { GRAPH ?collection { ?entity a <http://purl.org/dc/dcmitype/Image>; rdfs:label ?title; ?imageproperty ?image; ?wktproperty ?wkt . }\n' + 
                          'FILTER (?imageproperty = foaf-metamatter:depiction)\n' +
-                           '} LIMIT 10 }\n' +
+                         'FILTER (?wktproperty = ogcgs:asWKT)\n' +
+                           '} LIMIT 100 }\n' +
                  'UNION\n' +
                  '#Beeldbank Zeeland\n' +
-                 '{ SELECT DISTINCT * WHERE { ?entity ?descriptionproperty ?description; ?imageproperty ?image; dcterms:coverage ?coverage . ?coverage ogcgs:hasGeometry ?geometry . ?geometry ?wktproperty ?wkt .\n' +
-                    'FILTER (?descriptionproperty = dcterms:description)\n' +
-                    'FILTER (?imageproperty = foaf:thumbnail)\n' + 
-                    'FILTER (?wktproperty = ogcgs:asWKT)\n' +
-                                    '} LIMIT 10 }\n' +
+                 '{ SELECT DISTINCT * WHERE { GRAPH ?collection { ?entity rdfs:label ?title; ?imageproperty ?image; dcterms:coverage ?coverage . ?coverage ogcgs:hasGeometry ?geometry . ?geometry ?wktproperty ?wkt .\n' +
+                    'FILTER (?imageproperty = foaf:depiction) .\n' +
+                    'FILTER (?wktproperty = ogcgs:asWKT) . }\n' +
+                                    '} LIMIT 100 }\n' +
      '}';
-
 
      var url = 'http://erfgoedenlocatie.cloud.tilaa.com/sparql?query=' + encodeURIComponent(query);
      
@@ -94,14 +112,14 @@ function CollectionsController($scope, $http)
                }
                var thumbnail = undefined;
 
-               if(graph[obj]['http://xmlns.com/foaf/0.1/thumbnail'])
+               if(graph[obj]['http://xmlns.com/foaf/0.1/depiction'])
                {
-                    thumbnail = graph[obj]['http://xmlns.com/foaf/0.1/thumbnail'][0];
+                    thumbnail = graph[obj]['http://xmlns.com/foaf/0.1/depiction'][0];
                }
 
                var item = {'id': id, 'location' : wkt, 'description' : description, 'thumbnail' : thumbnail};
-               console.log(item);
                items.push(item); 
+               console.log(item);
           }
           
           //$scope.defaultCollection = items.splice(0,8);//first eight objects for now
