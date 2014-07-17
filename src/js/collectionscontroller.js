@@ -54,7 +54,7 @@ function CollectionsController($scope, $http)
       { "type": "Feature", "properties": { "id": 0, "Titel": "De Achtkante Molen", "LONG": 3.0, "LAT": 51.0, "PHOTO": "http:\/\/images.memorix.nl\/rce\/thumb\/800x800\/45fd1cc3-cd0b-bb79-66a0-e017f19af4db.jpg" }, "geometry": { "type": "Point", "coordinates": [ 3.611062331990914, 51.49375913957671 ] } }
      ];
 
-     $scope.defaultCollection = dummyCollection.splice(0,8);
+     $scope.defaultCollection = dummyCollection.splice(0,9);
      
      //first sparql query
      //TODO: create factory for building queries.
