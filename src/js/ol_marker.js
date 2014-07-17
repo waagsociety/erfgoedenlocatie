@@ -10,11 +10,14 @@ function updateMarkers(collection)
 	    geometry: new ol.geom.Point(collection[item].geometry.coordinates)
 		})
   }
+ 
+	var raster = new ol.layer.Tile({
+      source: new ol.source.TileJSON({
+        url: 'http://api.tiles.mapbox.com/v3/coennengerman.h5b45m5e.jsonp',
+        crossOrigin: 'anonymous'
+      })
+    });  
   
-  var raster = new ol.layer.Tile({
-    source: new ol.source.OSM()
-  });
-
    var iconStyle = new ol.style.Style({
     image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
       src: 'icons/windmill-2_1.png'
