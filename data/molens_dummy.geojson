@@ -18,15 +18,5 @@
 { "type": "Feature", "properties": { "id": 13, "Titel": "Kortrijkse Molen", "PHOTO": "http:\/\/images.memorix.nl\/rce\/thumb\/800x800\/5522d250-1059-06c4-38bf-cdab3511db1c.jpg" }, "geometry": { "type": "Point", "coordinates": [4.98922840702733, 52.1699429101379] } },
 { "type": "Feature", "properties": { "id": 14, "Titel": "Ten-Bruggencatenummer: 00197", "PHOTO": "http://images.memorix.nl/rce/thumb/400x400/a1a56376-0f6a-860e-f1a2-454e47f95643.jpg" }, "geometry": { "type": "Point", "coordinates": [5.83621771050327, 51.1203767734657] } },
 { "type": "Feature", "properties": { "id": 15, "Titel": "Molen van Verbeek", "PHOTO": "http://images.memorix.nl/rce/thumb/800x800/a4b12cab-00f3-834c-e881-043eba2c7055.jpg" }, "geometry": { "type": "Point", "coordinates": [6.0027823145398200, 51.1436943899261000] } },
-{ "type": "Feature", "properties": { "id": 16, "Titel": "", "PHOTO": "" }, "geometry": { "type": "Point", "coordinates": [, ] } },
-{ "type": "Feature", "properties": { "id": 17, "Titel": "", "PHOTO": "" }, "geometry": { "type": "Point", "coordinates": [, ] } },
-{ "type": "Feature", "properties": { "id": 18, "Titel": "", "PHOTO": "" }, "geometry": { "type": "Point", "coordinates": [, ] } },
-{ "type": "Feature", "properties": { "id": 19, "Titel": "", "PHOTO": "" }, "geometry": { "type": "Point", "coordinates": [, ] } },
-{ "type": "Feature", "properties": { "id": 20, "Titel": "", "PHOTO": "" }, "geometry": { "type": "Point", "coordinates": [, ] } },
-{ "type": "Feature", "properties": { "id": 21, "Titel": "", "PHOTO": "" }, "geometry": { "type": "Point", "coordinates": [, ] } },
-{ "type": "Feature", "properties": { "id": 22, "Titel": "", "PHOTO": "" }, "geometry": { "type": "Point", "coordinates": [, ] } },
-{ "type": "Feature", "properties": { "id": 23, "Titel": "", "PHOTO": "" }, "geometry": { "type": "Point", "coordinates": [, ] } },
-{ "type": "Feature", "properties": { "id": 24, "Titel": "", "PHOTO": "" }, "geometry": { "type": "Point", "coordinates": [, ] } },
-{ "type": "Feature", "properties": { "id": 25, "Titel": "", "PHOTO": "" }, "geometry": { "type": "Point", "coordinates": [, ] } },
 ]
 }
