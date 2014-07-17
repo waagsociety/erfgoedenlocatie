@@ -16,7 +16,7 @@
 { "type": "Feature", "properties": { "id": 7, "Titel": "De Drie Waaien", "PHOTO": "http:\/\/images.memorix.nl\/rce\/thumb\/400x400\/57f1e541-a240-8d15-ffb4-74f70aecdcaa.jpg" }, "geometry": { "type": "Point", "coordinates": [3.662566033391347, 51.543412097264124] } },
 { "type": "Feature", "properties": { "id": 6, "Titel": "Korenmolens", "PHOTO": "http:\/\/images.memorix.nl\/rce\/thumb\/800x800\/0ce8f248-3858-891f-ecd0-c9f38d6a9e2f.jpg" }, "geometry": { "type": "Point", "coordinates": [3.566812673041246, 51.456257887993289] } },
 { "type": "Feature", "properties": { "id": 13, "Titel": "Kortrijkse Molen", "PHOTO": "http:\/\/images.memorix.nl\/rce\/thumb\/800x800\/5522d250-1059-06c4-38bf-cdab3511db1c.jpg" }, "geometry": { "type": "Point", "coordinates": [4.98922840702733, 52.1699429101379] } },
-{ "type": "Feature", "properties": { "id": 14, "Titel": "Ten-Bruggencatenummer: 00197", "PHOTO": "http://images.memorix.nl/rce/thumb/400x400/a1a56376-0f6a-860e-f1a2-454e47f95643.jpg" }, "geometry": { "type": "Point", "coordinates": [5.83621771050327, 51.1203767734657] } },
-{ "type": "Feature", "properties": { "id": 15, "Titel": "Molen van Verbeek", "PHOTO": "http://images.memorix.nl/rce/thumb/800x800/a4b12cab-00f3-834c-e881-043eba2c7055.jpg" }, "geometry": { "type": "Point", "coordinates": [6.0027823145398200, 51.1436943899261000] } },
+{ "type": "Feature", "properties": { "id": 14, "Titel": "Ten-Bruggencatenummer: 00197", "PHOTO": "http:\/\/images.memorix.nl\/rce\/thumb\/400x400\/a1a56376-0f6a-860e-f1a2-454e47f95643.jpg" }, "geometry": { "type": "Point", "coordinates": [5.83621771050327, 51.1203767734657] } },
+{ "type": "Feature", "properties": { "id": 15, "Titel": "Molen van Verbeek", "PHOTO": "http:\/\/images.memorix.nl\/rce\/thumb\/800x800\/a4b12cab-00f3-834c-e881-043eba2c7055.jpg" }, "geometry": { "type": "Point", "coordinates": [6.0027823145398200, 51.1436943899261000] } }
 ]
 }
