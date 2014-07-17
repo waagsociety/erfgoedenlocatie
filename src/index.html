@@ -46,7 +46,7 @@
 		<div id="resultsPanel" ng-controller="CollectionsController" >
 
 			<div class="tile-{{$index}}" ng-repeat="collectionItem in defaultCollection">
-				<img class="thumbnail" src="{{collectionItem.properties.PHOTO}}" />
+				<img class="thumbnail" ng-src="{{collectionItem.properties.PHOTO}}" />
 				<div class="caption">{{collectionItem.properties.Titel}}</div>
 			</div>
 			

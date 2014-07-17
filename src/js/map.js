@@ -19,6 +19,7 @@ function updateMarkers(collection)
     });  
   
    var iconStyle = new ol.style.Style({
+
     image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
       src: 'icons/windmill-2_1.png'
     }))
