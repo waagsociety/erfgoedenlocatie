@@ -2,30 +2,11 @@
 // We hebben:
 // Collections: dit zijn linked data sets.
 // CollectionItems: dit zijn individuele items in een collection
-
-//fast helper functio for reading query
-function readTextFile(file)
-{
-     var rawFile = new XMLHttpRequest();
-     rawFile.open("GET", file, false);
-     rawFile.onreadystatechange = function ()
-     {
-          if(rawFile.readyState === 4)
-          {
-               if(rawFile.status === 200 || rawFile.status == 0)
-               {
-                    var allText = rawFile.responseText;
-                    return allText; 
-               }
-          }
-     }
-     rawFile.send(null);
-}
-
-
 function CollectionsController($scope, $http)
 {
-     
+      var PAGE_SIZE = 9;
+      $scope.page = 0;//default page
+
       //we want to know when the collection changes 
       //so we can instruct open layers to update the markers.
       $scope.$watch('defaultCollection', 
@@ -36,6 +17,31 @@ function CollectionsController($scope, $http)
           }, 
           true
       );
+
+      //go to next page of results
+      $scope.next = function()
+      {
+           $scope.page++;
+           if($scope.page > (Math.floor($scope.defaultCollection / PAGE_SIZE)))
+           {
+               $scope.page = (Math.floor($scope.defaultColleciton / PAGE_SIZE));
+           }
+           console.log('page: ' + $scope.page);
+           $scope.selection = $scope.defaultCollection.splice($scope.page * PAGE_SIZE,PAGE_SIZE);//randomly picked eight objects for now
+      };
+
+      //go to previous page of results
+      $scope.previous = function()
+      {
+           $scope.page--;
+           if($scope.page < 0 )
+           {
+                $scope.page = 0;
+           }
+           console.log('page: ' + $scope.page); 
+           $scope.selection = $scope.defaultCollection.splice($scope.page * PAGE_SIZE,PAGE_SIZE);//randomly picked eight objects for now
+      };
+
     
      //first sparql query
      //TODO: create factory for building queries.
@@ -107,12 +113,11 @@ function CollectionsController($scope, $http)
                if(item.description != undefined && item.description.length > 0 && item.thumbnail != undefined)
                {
                     items.push(item);
-                    console.log(item);
                } 
           }
-          
-          $scope.defaultCollection = items.splice(8,9);//first eight objects for now
-          //this works but data is still very low quality, pictures do not resolve..
+
+          $scope.defaultCollection = items;          
+          $scope.selection = items.splice(0,PAGE_SIZE);//randomly picked eight objects for now
 
      }).error(function (data, status, headers, config) {
           console.log(status);

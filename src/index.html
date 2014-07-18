@@ -45,13 +45,13 @@
 	<div id="rightContainer">
 		<div id="resultsPanel" ng-controller="CollectionsController" >
 
-			<div class="tile-{{$index}}" ng-repeat="collectionItem in defaultCollection">
+			<div class="tile-{{$index}}" ng-repeat="collectionItem in selection">
 				<img class="thumbnail" ng-src="{{collectionItem.thumbnail}}" />
 				<div class="caption">{{collectionItem.description}}</div>
 			</div>
 			
 			<div id="pager">
-				<div class="label"><a href="javascript:void();">&lt;&lt;</a>&nbsp;&nbsp;11-19 of 55&nbsp;&nbsp;<a href="javascript:void();">&gt;&gt;</a></div>
+				<div class="label"><a href="" ng-click="previous()">&lt;&lt;</a>&nbsp;&nbsp;11-19 of 55&nbsp;&nbsp;<a href="" ng-click="next()">&gt;&gt;</a></div>
 			</div>
 		</div>
 		<div id="timePanel">
