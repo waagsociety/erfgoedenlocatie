@@ -31,6 +31,8 @@ console.log("map init");
 	   });
 	console.log('map size: ' + theMap.getSize());
     theMap.on('moveend', onMoveEnd);
+	startExtent = [385000, 6650000, 830000, 7100000]
+	theView.fitExtent(startExtent, theMap.getSize());
 }
 
 function updateMarkers(collection)
