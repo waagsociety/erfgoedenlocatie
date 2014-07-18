@@ -1,3 +1,37 @@
+var theMap;
+var iconSelectStyle;
+var iconStyle; 
+var theView;
+
+function initMap() {
+console.log("map init");
+    var raster = new ol.layer.Tile({
+            source: new ol.source.TileJSON({
+                url: 'http://api.tiles.mapbox.com/v3/coennengerman.h5b45m5e.jsonp',
+                crossOrigin: 'anonymous'
+            })
+        });
+
+    iconStyle = new ol.style.Style({
+            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+                src: 'icons/windmill-2_1.png'
+            }))
+        });
+  
+  iconSelectStyle = new ol.style.Style({
+    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+      src: 'icons/windmill-selected.png'
+    }))
+  });  
+  theView = new ol.View({center: [0, 0], zoom: 2});
+  theMap = new ol.Map({
+    layers: [raster],
+    target: 'mapPanel',
+    view: theView,
+	   });
+	console.log('map size: ' + theMap.getSize());
+}
+
 function updateMarkers(collection)
 {
   //console.log(collection);
@@ -10,27 +44,7 @@ function updateMarkers(collection)
 	    geometry: new ol.geom.Point(collection[item].geometry.coordinates)
 		})
   }
- 
-	var raster = new ol.layer.Tile({
-      source: new ol.source.TileJSON({
-        url: 'http://api.tiles.mapbox.com/v3/coennengerman.h5b45m5e.jsonp',
-        crossOrigin: 'anonymous'
-      })
-    });  
-  
-   var iconStyle = new ol.style.Style({
-
-    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-      src: 'icons/windmill-2_1.png'
-    }))
-  });
-  
-  var iconSelectStyle = new ol.style.Style({
-    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-      src: 'icons/windmill-selected.png'
-    }))
-  });
-  
+     
   var feature;
   for (feature in feature_set)
   {
@@ -44,13 +58,9 @@ function updateMarkers(collection)
     })
   });
 
-  var view = new ol.View({});
-  var map = new ol.Map({
-    layers: [raster, vector],
-    target: 'mapPanel',
-    view: view
-	   });
-  view.fitExtent(vector.getSource().getExtent(), map.getSize());
-  map.addInteraction(new ol.interaction.Select({style: iconSelectStyle}));
+  theMap.getLayers().push(vector);  
+  console.log('map size ' + theMap.getSize());
+  theView.fitExtent(vector.getSource().getExtent(), theMap.getSize());
+  theMap.addInteraction(new ol.interaction.Select({style: iconSelectStyle}));
 }
 
