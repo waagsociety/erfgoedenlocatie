@@ -66,13 +66,13 @@ function CollectionsController($scope, $http)
                  'PREFIX dcterms:<http://purl.org/dc/terms/>\n' +
                  'PREFIX ogcgs:<http://www.opengis.net/ont/geosparql#>\n' +
                  'PREFIX nco:<http://www.semanticdesktop.org/ontologies/2007/03/22/nco#>\n' +
-                 'CONSTRUCT {?entity ?titleproperty ?title; dc:isPartOf ?collection; ?imageproperty ?image; ?wktproperty ?wkt} \n' +
+                 'CONSTRUCT {?entity rdfs:label ?title; dc:isPartOf ?collection; ?imageproperty ?image; ?wktproperty ?wkt} \n' +
                  ' WHERE {\n' +
                          '#Molens\n' +
                          '{ SELECT * WHERE { GRAPH ?collection { ?entity a <http://purl.org/dc/dcmitype/Image>; rdfs:label ?title; ?imageproperty ?image; ?wktproperty ?wkt . }\n' + 
                          'FILTER (?imageproperty = foaf-metamatter:depiction)\n' +
                          'FILTER (?wktproperty = ogcgs:asWKT)\n' +
-                           '} LIMIT 100 }\n' +
+                           '} LIMIT 25 }\n' +
                  'UNION\n' +
                  '#Beeldbank Zeeland\n' +
                  '{ SELECT DISTINCT * WHERE { GRAPH ?collection { ?entity rdfs:label ?title; ?imageproperty ?image; dcterms:coverage ?coverage . ?coverage ogcgs:hasGeometry ?geometry . ?geometry ?wktproperty ?wkt .\n' +
@@ -99,16 +99,20 @@ function CollectionsController($scope, $http)
           {
                var id = graph[obj]['@id'];
                
-               var wkt = undefined;
+               var geometry = undefined;
                if(graph[obj]['http://www.opengis.net/ont/geosparql#asWKT'])
                {
-                    wkt = graph[obj]['http://www.opengis.net/ont/geosparql#asWKT'][0]['@value'];
+                    var wkt = graph[obj]['http://www.opengis.net/ont/geosparql#asWKT'][0]['@value'];
+                    
+                    //TODO: fix this quick hack
+                    var coords = wkt.slice(6,-1).split(" ");
+                    geometry = { "type": "Point", "coordinates": coords }; 
                }
                
                var description = undefined;
-               if(graph[obj]['http://purl.org/dc/terms/description'])
+               if(graph[obj]['http://www.w3.org/2000/01/rdf-schema#label'])
                {
-                    description = graph[obj]['http://purl.org/dc/terms/description'][0]['@value'];
+                    description = graph[obj]['http://www.w3.org/2000/01/rdf-schema#label'][0]['@value'];
                }
                var thumbnail = undefined;
 
@@ -117,12 +121,16 @@ function CollectionsController($scope, $http)
                     thumbnail = graph[obj]['http://xmlns.com/foaf/0.1/depiction'][0];
                }
 
-               var item = {'id': id, 'location' : wkt, 'description' : description, 'thumbnail' : thumbnail};
-               items.push(item); 
-               console.log(item);
+               var item = {'id': id, 'geometry' : geometry, 'description' : description, 'thumbnail' : thumbnail};
+               //only push items which have all properties defined
+               if(item.description != undefined && item.description.length > 0 && item.thumbnail != undefined)
+               {
+                    items.push(item);
+                    console.log(item);
+               } 
           }
           
-          //$scope.defaultCollection = items.splice(0,8);//first eight objects for now
+          $scope.defaultCollection = items.splice(8,9);//first eight objects for now
           //this works but data is still very low quality, pictures do not resolve..
 
      }).error(function (data, status, headers, config) {

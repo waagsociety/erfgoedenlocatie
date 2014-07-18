@@ -46,8 +46,8 @@
 		<div id="resultsPanel" ng-controller="CollectionsController" >
 
 			<div class="tile-{{$index}}" ng-repeat="collectionItem in defaultCollection">
-				<img class="thumbnail" ng-src="{{collectionItem.properties.PHOTO}}" />
-				<div class="caption">{{collectionItem.properties.Titel}}</div>
+				<img class="thumbnail" ng-src="{{collectionItem.thumbnail}}" />
+				<div class="caption">{{collectionItem.description}}</div>
 			</div>
 			
 			<div id="pager">
