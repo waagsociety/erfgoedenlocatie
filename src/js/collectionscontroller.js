@@ -22,12 +22,16 @@ function CollectionsController($scope, $http)
       $scope.next = function()
       {
            $scope.page++;
-           if($scope.page > (Math.floor($scope.defaultCollection / PAGE_SIZE)))
+           var max = Math.floor($scope.defaultCollection.length/PAGE_SIZE); 
+           if($scope.page >= max)
            {
-               $scope.page = (Math.floor($scope.defaultColleciton / PAGE_SIZE));
+               $scope.page = max;
            }
            console.log('page: ' + $scope.page);
-           $scope.selection = $scope.defaultCollection.splice($scope.page * PAGE_SIZE,PAGE_SIZE);//randomly picked eight objects for now
+
+           var start_page = $scope.page * PAGE_SIZE;
+           var end_page = start_page + PAGE_SIZE;  
+           $scope.selection = $scope.defaultCollection.slice(start_page,end_page);//randomly picked eight objects for now
       };
 
       //go to previous page of results
@@ -39,7 +43,30 @@ function CollectionsController($scope, $http)
                 $scope.page = 0;
            }
            console.log('page: ' + $scope.page); 
-           $scope.selection = $scope.defaultCollection.splice($scope.page * PAGE_SIZE,PAGE_SIZE);//randomly picked eight objects for now
+           var start_page = $scope.page * PAGE_SIZE;
+           var end_page = start_page + PAGE_SIZE;  
+           $scope.selection = $scope.defaultCollection.slice(start_page,end_page);//randomly picked eight objects for now
+
+      };
+
+      //client side paging of results
+      $scope.pageString = function()
+      {
+           var page_start = ($scope.page * PAGE_SIZE) + 1;
+           var page_end = page_start + (PAGE_SIZE - 2);
+           var total = 0;
+
+           if($scope.defaultCollection != undefined)
+           {
+                total = $scope.defaultCollection.length;
+           }
+
+           if($scope.selection != undefined)
+           {
+                page_end = (page_start + 1) + ($scope.selection.length - 2);
+           }
+
+           return page_start + " - " + page_end + " of " + total ;
       };
 
     
@@ -110,14 +137,14 @@ function CollectionsController($scope, $http)
 
                var item = {'id': id, 'geometry' : geometry, 'description' : description, 'thumbnail' : thumbnail};
                //only push items which have all properties defined
-               if(item.description != undefined && item.description.length > 0 && item.thumbnail != undefined)
-               {
+               //if(item.description != undefined && item.description.length > 0 && item.thumbnail != undefined)
+               //{
                     items.push(item);
-               } 
+               //} 
           }
 
           $scope.defaultCollection = items;          
-          $scope.selection = items.splice(0,PAGE_SIZE);//randomly picked eight objects for now
+          $scope.selection = items.slice(0,PAGE_SIZE);//randomly picked eight objects for now
 
      }).error(function (data, status, headers, config) {
           console.log(status);
