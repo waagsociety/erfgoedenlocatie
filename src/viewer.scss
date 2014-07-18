@@ -77,6 +77,7 @@ button, input, select, textarea
 	}
 	color: $font_color;
 	width: 100%;
+	
 
 }
 
@@ -204,6 +205,10 @@ button, input, select, textarea
 
 		//background
 		background-color:rgba(0,0,0,0.6);
+
+		//overflow
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 
 	pre	
@@ -307,7 +312,10 @@ button, input, select, textarea
 		//background
 		background-color:rgba(0,0,0,0.6);
 
-		
+		//overflow
+		text-overflow: ellipsis;
+		overflow: hidden;
+
 
 	}
 }

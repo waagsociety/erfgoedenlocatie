@@ -119,7 +119,9 @@ button, input, select, textarea {
     line-height: 1em;
     text-align: left;
     padding-left: 10px;
-    background-color: rgba(0, 0, 0, 0.6); }
+    background-color: rgba(0, 0, 0, 0.6);
+    text-overflow: ellipsis;
+    overflow: hidden; }
   #detailPanel pre {
     font-size: .7em;
     text-align: left;
@@ -231,7 +233,9 @@ button, input, select, textarea {
     color: white;
     font-size: 1em;
     font-family: monospace;
-    background-color: rgba(0, 0, 0, 0.6); }
+    background-color: rgba(0, 0, 0, 0.6);
+    text-overflow: ellipsis;
+    overflow: hidden; }
 
 #pager {
   position: absolute;
