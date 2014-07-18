@@ -9,7 +9,7 @@ function CollectionsController($scope, $http)
 
       //we want to know when the collection changes 
       //so we can instruct open layers to update the markers.
-      $scope.$watch('defaultCollection', 
+      $scope.$watch('spatialSelection', 
           function(newValue, oldValue)
           {
                //calls function in ol_marker.js
@@ -17,12 +17,32 @@ function CollectionsController($scope, $http)
           }, 
           true
       );
+	  
+	  //update the spatial filter
+	  $scope.updateSpatialFilter = function(extent)
+	  {
+			console.log('sp update' + $scope);
+			var filter = new Array();
+			
+			for(item in $scope.defaultCollection)
+			{
+				var obj = $scope.defaultCollection[item];
+				var inside = ol.extent.containsCoordinate(extent, obj.geometry.coordinates);
+				if(inside)
+				{
+					filter.push(obj);
+				}
+			}
+			console.log('in filter: ' + filter.length);
+			$scope.spatialSelection = filter;
+			$scope.selection = $scope.spatialSelection.slice(0,PAGE_SIZE);
+	  }
 
       //go to next page of results
       $scope.next = function()
       {
            $scope.page++;
-           var max = Math.floor($scope.defaultCollection.length/PAGE_SIZE); 
+           var max = Math.floor($scope.spatialSelection.length/PAGE_SIZE); 
            if($scope.page >= max)
            {
                $scope.page = max;
@@ -31,7 +51,7 @@ function CollectionsController($scope, $http)
 
            var start_page = $scope.page * PAGE_SIZE;
            var end_page = start_page + PAGE_SIZE;  
-           $scope.selection = $scope.defaultCollection.slice(start_page,end_page);//randomly picked eight objects for now
+           $scope.selection = $scope.spatialSelection.slice(start_page,end_page);//randomly picked eight objects for now
       };
 
       //go to previous page of results
@@ -45,7 +65,7 @@ function CollectionsController($scope, $http)
            console.log('page: ' + $scope.page); 
            var start_page = $scope.page * PAGE_SIZE;
            var end_page = start_page + PAGE_SIZE;  
-           $scope.selection = $scope.defaultCollection.slice(start_page,end_page);//randomly picked eight objects for now
+           $scope.selection = $scope.spatialSelection.slice(start_page,end_page);//randomly picked eight objects for now
 
       };
 
@@ -56,9 +76,9 @@ function CollectionsController($scope, $http)
            var page_end = page_start + (PAGE_SIZE - 2);
            var total = 0;
 
-           if($scope.defaultCollection != undefined)
+           if($scope.spatialSelection != undefined)
            {
-                total = $scope.defaultCollection.length;
+                total = $scope.spatialSelection.length;
            }
 
            if($scope.selection != undefined)
@@ -143,8 +163,9 @@ function CollectionsController($scope, $http)
                //} 
           }
 
-          $scope.defaultCollection = items;          
-          $scope.selection = items.slice(0,PAGE_SIZE);//randomly picked eight objects for now
+          $scope.defaultCollection = items;
+		  $scope.spatialSelection = items; //we don't have the map yet to calculate spatial filter
+          $scope.selection = $scope.spatialSelection.slice(0,PAGE_SIZE);//randomly picked eight objects for now
 
      }).error(function (data, status, headers, config) {
           console.log(status);

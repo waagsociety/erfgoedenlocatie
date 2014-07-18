@@ -30,12 +30,13 @@ console.log("map init");
     view: theView,
 	   });
 	console.log('map size: ' + theMap.getSize());
+    theMap.on('moveend', onMoveEnd);
 }
 
 function updateMarkers(collection)
 {
-  //console.log(collection);
-  
+  //when the map is not initialized, we cannot add features
+  if(theMap == undefined){return;}
   var item;
   var feature_set = new Array();
   for(item in collection)
@@ -60,7 +61,20 @@ function updateMarkers(collection)
 
   theMap.getLayers().push(vector);  
   console.log('map size ' + theMap.getSize());
-  theView.fitExtent(vector.getSource().getExtent(), theMap.getSize());
+  
+  //theView.fitExtent(vector.getSource().getExtent(), theMap.getSize());
   theMap.addInteraction(new ol.interaction.Select({style: iconSelectStyle}));
+  console.log(theMap);
 }
+
+function onMoveEnd(evt) {
+    var map = evt.map;
+    var extent = map.getView().calculateExtent(map.getSize());
+	extent_wgs84 = ol.proj.transform(extent,'EPSG:3857', 'EPSG:4326');
+	var el = document.getElementById('resultsPanel');
+	var scope = angular.element(el).scope();
+	scope.updateSpatialFilter(extent_wgs84);
+	scope.$apply();
+}
+
 
