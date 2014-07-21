@@ -37,8 +37,15 @@ console.log("map init");
 
 function updateMarkers(collection)
 {
-  //when the map is not initialized, we cannot add features
+
+    //when the map is not initialized, we cannot add features
   if(theMap == undefined){return;}
+ 
+  if(theMap.getLayers().getLength() == 2)
+  {
+    theMap.getLayers().pop();
+  }
+
   var item;
   var feature_set = new Array();
   for(item in collection)
@@ -73,7 +80,7 @@ function onMoveEnd(evt) {
     var map = evt.map;
     var extent = map.getView().calculateExtent(map.getSize());
 	extent_wgs84 = ol.proj.transform(extent,'EPSG:3857', 'EPSG:4326');
-	var el = document.getElementById('resultsPanel');
+	var el = document.getElementById('rootContainer');
 	var scope = angular.element(el).scope();
 	scope.updateSpatialFilter(extent_wgs84);
 	scope.$apply();

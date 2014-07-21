@@ -2,119 +2,114 @@
 // We hebben:
 // Collections: dit zijn linked data sets.
 // CollectionItems: dit zijn individuele items in een collection
+const PAGE_SIZE = 9;
+
 function CollectionsController($scope, $http)
 {
-      var PAGE_SIZE = 9;
-      $scope.page = 0;//default page
+     $scope.page = 0;//default page
 
-      //we want to know when the collection changes 
-      //so we can instruct open layers to update the markers.
-      $scope.$watch('spatialSelection', 
-          function(newValue, oldValue)
+     //make config available as scope variable
+     $scope.datasources = config.datasources;
+
+     $scope.$watch('datasources',
+               function(newValue, oldValue)
+               {
+                    performQuery($scope, $http);
+               },
+               true
+               );
+
+     //we want to know when the collection changes 
+     //so we can instruct open layers to update the markers.
+     $scope.$watch('spatialSelection', 
+               function(newValue, oldValue)
+               {
+                    //calls function in ol_marker.js
+                    updateMarkers(newValue);
+               }, 
+               true
+               );
+
+     //update the spatial filter
+     $scope.updateSpatialFilter = function(extent)
+     {
+          console.log('sp update' + $scope);
+          var filter = new Array();
+
+          for(item in $scope.defaultCollection)
           {
-               //calls function in ol_marker.js
-               updateMarkers(newValue);
-          }, 
-          true
-      );
-	  
-	  //update the spatial filter
-	  $scope.updateSpatialFilter = function(extent)
-	  {
-			console.log('sp update' + $scope);
-			var filter = new Array();
-			
-			for(item in $scope.defaultCollection)
-			{
-				var obj = $scope.defaultCollection[item];
-				var inside = ol.extent.containsCoordinate(extent, obj.geometry.coordinates);
-				if(inside)
-				{
-					filter.push(obj);
-				}
-			}
-			console.log('in filter: ' + filter.length);
-			$scope.spatialSelection = filter;
-			$scope.selection = $scope.spatialSelection.slice(0,PAGE_SIZE);
-	  }
+               var obj = $scope.defaultCollection[item];
+               var inside = ol.extent.containsCoordinate(extent, obj.geometry.coordinates);
+               if(inside)
+               {
+                    filter.push(obj);
+               }
+          }
+          console.log('in filter: ' + filter.length);
+          $scope.spatialSelection = filter;
+          $scope.selection = $scope.spatialSelection.slice(0,PAGE_SIZE);
+     }
 
-      //go to next page of results
-      $scope.next = function()
-      {
-           $scope.page++;
-           var max = Math.floor($scope.spatialSelection.length/PAGE_SIZE); 
-           if($scope.page >= max)
-           {
+     //go to next page of results
+     $scope.next = function()
+     {
+          $scope.page++;
+          var max = Math.floor($scope.spatialSelection.length/PAGE_SIZE); 
+          if($scope.page >= max)
+          {
                $scope.page = max;
-           }
-           console.log('page: ' + $scope.page);
+          }
+          console.log('page: ' + $scope.page);
 
-           var start_page = $scope.page * PAGE_SIZE;
-           var end_page = start_page + PAGE_SIZE;  
-           $scope.selection = $scope.spatialSelection.slice(start_page,end_page);//randomly picked eight objects for now
-      };
+          var start_page = $scope.page * PAGE_SIZE;
+          var end_page = start_page + PAGE_SIZE;  
+          $scope.selection = $scope.spatialSelection.slice(start_page,end_page);//randomly picked eight objects for now
+     };
 
-      //go to previous page of results
-      $scope.previous = function()
-      {
-           $scope.page--;
-           if($scope.page < 0 )
-           {
-                $scope.page = 0;
-           }
-           console.log('page: ' + $scope.page); 
-           var start_page = $scope.page * PAGE_SIZE;
-           var end_page = start_page + PAGE_SIZE;  
-           $scope.selection = $scope.spatialSelection.slice(start_page,end_page);//randomly picked eight objects for now
+     //go to previous page of results
+     $scope.previous = function()
+     {
+          $scope.page--;
+          if($scope.page < 0 )
+          {
+               $scope.page = 0;
+          }
+          console.log('page: ' + $scope.page); 
+          var start_page = $scope.page * PAGE_SIZE;
+          var end_page = start_page + PAGE_SIZE;  
+          $scope.selection = $scope.spatialSelection.slice(start_page,end_page);//randomly picked eight objects for now
 
-      };
+     };
 
-      //client side paging of results
-      $scope.pageString = function()
-      {
-           var page_start = ($scope.page * PAGE_SIZE) + 1;
-           var page_end = page_start + (PAGE_SIZE - 2);
-           var total = 0;
+     //client side paging of results
+     $scope.pageString = function()
+     {
+          var page_start = ($scope.page * PAGE_SIZE) + 1;
+          var page_end = page_start + (PAGE_SIZE - 2);
+          var total = 0;
 
-           if($scope.spatialSelection != undefined)
-           {
-                total = $scope.spatialSelection.length;
-           }
+          if($scope.spatialSelection != undefined)
+          {
+               total = $scope.spatialSelection.length;
+          }
 
-           if($scope.selection != undefined)
-           {
-                page_end = (page_start + 1) + ($scope.selection.length - 2);
-           }
+          if($scope.selection != undefined)
+          {
+               page_end = (page_start + 1) + ($scope.selection.length - 2);
+          }
 
-           return page_start + " - " + page_end + " of " + total ;
-      };
+          return page_start + " - " + page_end + " of " + total ;
+     };
 
-    
-     //first sparql query
-     //TODO: create factory for building queries.
-     //TODO: create defines for sparql namespaces.
-     var query = 'PREFIX dc:<http://purl.org/dc/elements/1.1/>\n' +
-                 'PREFIX foaf:<http://xmlns.com/foaf/0.1/>\n' +
-                 'PREFIX foaf-metamatter:<http://xmlns.com/foaf/>\n' +
-                 'PREFIX prov:<http://purl.org/net/provenance/ns#>\n' +
-                 'PREFIX dcterms:<http://purl.org/dc/terms/>\n' +
-                 'PREFIX ogcgs:<http://www.opengis.net/ont/geosparql#>\n' +
-                 'PREFIX nco:<http://www.semanticdesktop.org/ontologies/2007/03/22/nco#>\n' +
-                 'CONSTRUCT {?entity rdfs:label ?title; dc:isPartOf ?collection; ?imageproperty ?image; ?wktproperty ?wkt} \n' +
-                 ' WHERE {\n' +
-                         '#Molens\n' +
-                         '{ SELECT * WHERE { GRAPH ?collection { ?entity a <http://purl.org/dc/dcmitype/Image>; rdfs:label ?title; ?imageproperty ?image; ?wktproperty ?wkt . }\n' + 
-                         'FILTER (?imageproperty = foaf-metamatter:depiction)\n' +
-                         'FILTER (?wktproperty = ogcgs:asWKT)\n' +
-                           '} LIMIT 25 }\n' +
-                 'UNION\n' +
-                 '#Beeldbank Zeeland\n' +
-                 '{ SELECT DISTINCT * WHERE { GRAPH ?collection { ?entity rdfs:label ?title; ?imageproperty ?image; dcterms:coverage ?coverage . ?coverage ogcgs:hasGeometry ?geometry . ?geometry ?wktproperty ?wkt .\n' +
-                    'FILTER (?imageproperty = foaf:depiction) .\n' +
-                    'FILTER (?wktproperty = ogcgs:asWKT) . }\n' +
-                                    '} LIMIT 100 }\n' +
-     '}';
 
+
+}
+
+//make a call to the server
+function performQuery($scope, $http)
+{
+     //based on config, which is databound to selection of collections
+     var query = createQuery();
      var url = 'http://erfgoedenlocatie.cloud.tilaa.com/sparql?query=' + encodeURIComponent(query);
      
      $http({
@@ -148,11 +143,20 @@ function CollectionsController($scope, $http)
                {
                     description = graph[obj]['http://www.w3.org/2000/01/rdf-schema#label'][0]['@value'];
                }
+
+
                var thumbnail = undefined;
 
                if(graph[obj]['http://xmlns.com/foaf/0.1/depiction'])
                {
                     thumbnail = graph[obj]['http://xmlns.com/foaf/0.1/depiction'][0];
+               }
+
+               //molens
+               //TODO: fix this in the data
+               if(graph[obj]['http://xmlns.com/foaf/depiction'])
+               {
+                    thumbnail = graph[obj]['http://xmlns.com/foaf/depiction'][0];
                }
 
                var item = {'id': id, 'geometry' : geometry, 'description' : description, 'thumbnail' : thumbnail};
@@ -164,10 +168,37 @@ function CollectionsController($scope, $http)
           }
 
           $scope.defaultCollection = items;
-		  $scope.spatialSelection = items; //we don't have the map yet to calculate spatial filter
+	  $scope.spatialSelection = items; //we don't have the map yet to calculate spatial filter
           $scope.selection = $scope.spatialSelection.slice(0,PAGE_SIZE);//randomly picked eight objects for now
 
      }).error(function (data, status, headers, config) {
           console.log(status);
-     });     
+     }); 
+}
+
+//create a query based on the data sources
+function createQuery()
+{
+    var query = config.prefixes + "\n" + config.construct + ' WHERE {\n';
+
+    var count = 0;
+
+    for(ds_index in config.datasources)
+    {
+        var ds = config.datasources[ds_index];
+
+         if(ds.enabled)
+         {
+               if(count > 0)
+               {
+                    query += " UNION \n";
+               }
+               query +=  "{\n" + ds.sparql + " LIMIT 100 }";
+               count++;
+         }
+          
+    }
+
+    query += "\n}";
+    return query;
 }
