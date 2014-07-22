@@ -149,9 +149,9 @@ function performQuery($scope, $http)
 
             var thumbnail = undefined;
 
-            if(graph[obj]['http://xmlns.com/foaf/0.1/depiction'])
+            if(graph[obj]['http://xmlns.com/foaf/0.1/thumbnail'])
             {
-                thumbnail = graph[obj]['http://xmlns.com/foaf/0.1/depiction'][0];
+                thumbnail = graph[obj]['http://xmlns.com/foaf/0.1/thumbnail'][0];
             }
 
             if(graph[obj]['http://xmlns.com/foaf/depiction'])
