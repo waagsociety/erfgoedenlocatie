@@ -116,8 +116,8 @@ function performQuery($scope, $http)
           url: url,
           method: "GET",
           headers: {'Content-Type': 'application/ld+json', 'Accept' : 'application/ld+json'}
-     }).success(function (data, status, headers, config) {
-          
+     }).success(function (data, status, headers, cfg) {
+          //console.log(data);
           //create simplified objects for databinding
           var items = [];
 
@@ -127,7 +127,10 @@ function performQuery($scope, $http)
           for(var obj in graph) 
           {
                var id = graph[obj]['@id'];
-               
+			   var graphname = graph[obj]['http://purl.org/dc/elements/1.1/isPartOf'][0];
+			   
+			   var iconType = config.datasources[graphname.trim()].icon;
+			   console.log(iconType);
                var geometry = undefined;
                if(graph[obj]['http://www.opengis.net/ont/geosparql#asWKT'])
                {
@@ -144,22 +147,19 @@ function performQuery($scope, $http)
                     description = graph[obj]['http://www.w3.org/2000/01/rdf-schema#label'][0]['@value'];
                }
 
-
                var thumbnail = undefined;
-
+			   
                if(graph[obj]['http://xmlns.com/foaf/0.1/depiction'])
                {
                     thumbnail = graph[obj]['http://xmlns.com/foaf/0.1/depiction'][0];
                }
 
-               //molens
-               //TODO: fix this in the data
                if(graph[obj]['http://xmlns.com/foaf/depiction'])
                {
                     thumbnail = graph[obj]['http://xmlns.com/foaf/depiction'][0];
                }
 
-               var item = {'id': id, 'geometry' : geometry, 'description' : description, 'thumbnail' : thumbnail};
+               var item = {'id': id, 'geometry' : geometry, 'description' : description, 'thumbnail' : thumbnail, 'icon' : iconType};
                //only push items which have all properties defined
                //if(item.description != undefined && item.description.length > 0 && item.thumbnail != undefined)
                //{
@@ -171,7 +171,7 @@ function performQuery($scope, $http)
 	  $scope.spatialSelection = items; //we don't have the map yet to calculate spatial filter
           $scope.selection = $scope.spatialSelection.slice(0,PAGE_SIZE);//randomly picked eight objects for now
 
-     }).error(function (data, status, headers, config) {
+     }).error(function (data, status, headers, cfg) {
           console.log(status);
      }); 
 }
@@ -183,9 +183,9 @@ function createQuery()
 
     var count = 0;
 
-    for(ds_index in config.datasources)
+    for(graph in config.datasources)
     {
-        var ds = config.datasources[ds_index];
+        var ds = config.datasources[graph];
 
          if(ds.enabled)
          {

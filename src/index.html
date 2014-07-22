@@ -31,7 +31,7 @@
 			<div class="list">
 			<form>
 				<div ng-repeat="ds in datasources">
-					<input name="molens" type="checkbox" ng-model="ds.enabled">{{ds.uri}}</input>
+					<input name="{{ds.name}}" type="checkbox" ng-model="ds.enabled"><img src="./icons/{{ds.icon}}_legend.png"/>&nbsp;{{ds.name}}</input>
 				<br/>
 			</div>
 			</form>

@@ -11,12 +11,6 @@ console.log("map init");
                 crossOrigin: 'anonymous'
             })
         });
-
-    iconStyle = new ol.style.Style({
-            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-                src: 'icons/windmill-2_1.png'
-            }))
-        });
   
   iconSelectStyle = new ol.style.Style({
     image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
@@ -50,18 +44,19 @@ function updateMarkers(collection)
   var feature_set = new Array();
   for(item in collection)
   {
-	feature_set[item] = new ol.Feature({
-	    geometry: new ol.geom.Point(collection[item].geometry.coordinates)
-		})
+        newFeature = new ol.Feature({geometry: new ol.geom.Point(collection[item].geometry.coordinates)});
+	    iconType = collection[item].icon;
+		console.log('icons/' + iconType + '.png');
+	    
+		newFeature.setStyle(new ol.style.Style({
+            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+                src: 'icons/' + iconType + '.png'
+            }))}));
+		
+		newFeature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+		feature_set[item] = newFeature
   }
      
-  var feature;
-  for (feature in feature_set)
-  {
-  feature_set[feature].getGeometry().transform('EPSG:4326', 'EPSG:3857');
-  feature_set[feature].setStyle(iconStyle)};
-
-
   var vector = new ol.layer.Vector({
     source: new ol.source.Vector({
       features: feature_set
@@ -85,5 +80,3 @@ function onMoveEnd(evt) {
 	scope.updateSpatialFilter(extent_wgs84);
 	scope.$apply();
 }
-
-

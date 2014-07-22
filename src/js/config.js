@@ -16,24 +16,26 @@ const config =
      'construct' : 'CONSTRUCT {?entity rdfs:label ?title; dc:isPartOf ?collection; ?imageproperty ?image; ?wktproperty ?wkt}',
 
      'datasources' : 
-          [
+          {'http://data.metamatter.nl/molens': 
                //molens
                {
-                    'name' : 'molens', 
-                    'uri' : 'http://data.metamatter.nl/molens/',
+					//change uri to graph
+                    'name' : 'Nationaal Molen Bestand', 
                     'enabled' : true,
+					'icon': 'molen',
                     'sparql' : 'SELECT * WHERE { GRAPH ?collection { ?entity a <http://purl.org/dc/dcmitype/Image>; rdfs:label ?title; ?imageproperty ?image; ?wktproperty ?wkt . } \
                               FILTER (?imageproperty = foaf-metamatter:depiction) \
                               FILTER (?wktproperty = ogcgs:asWKT)}'
                },
                //beeldbank zeeland
-               {
-                    'name' : 'beeldbank zeeland', 
-                    'uri' : 'http://datalab.bibliotheek.nl/bbz/',
-                    'enabled' : true,
+               'http://datalab.bibliotheek.nl/bbz': {
+                    'name' : 'Beeldbank Zeeland', 
+                    'enabled' : false,
+					'icon': 'bbz',
                     'sparql' : 'SELECT DISTINCT * WHERE { GRAPH ?collection { ?entity rdfs:label ?title; ?imageproperty ?image; dcterms:coverage ?coverage . ?coverage ogcgs:hasGeometry ?geometry . ?geometry ?wktproperty ?wkt . \
                          FILTER (?imageproperty = foaf:depiction) . \
                          FILTER (?wktproperty = ogcgs:asWKT) . }}'
                } 
-          ]
+          },
+		  //config.datasources[graph].icon
 }
