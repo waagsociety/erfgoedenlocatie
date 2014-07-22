@@ -36,6 +36,5 @@ const config =
                          FILTER (?imageproperty = foaf:depiction) . \
                          FILTER (?wktproperty = ogcgs:asWKT) . }}'
                } 
-          },
-		  //config.datasources[graph].icon
+          }
 }

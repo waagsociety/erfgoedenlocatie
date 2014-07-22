@@ -64,11 +64,11 @@ function updateMarkers(collection)
   });
 
   theMap.getLayers().push(vector);  
-  console.log('map size ' + theMap.getSize());
+  //console.log('map size ' + theMap.getSize());
   
   //theView.fitExtent(vector.getSource().getExtent(), theMap.getSize());
-  theMap.addInteraction(new ol.interaction.Select({style: iconSelectStyle}));
-  console.log(theMap);
+  //theMap.addInteraction(new ol.interaction.Select({style: iconSelectStyle}));
+  //console.log(theMap);
 }
 
 function onMoveEnd(evt) {

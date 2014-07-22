@@ -130,7 +130,6 @@ function performQuery($scope, $http)
 			   var graphname = graph[obj]['http://purl.org/dc/elements/1.1/isPartOf'][0];
 			   
 			   var iconType = config.datasources[graphname.trim()].icon;
-			   console.log(iconType);
                var geometry = undefined;
                if(graph[obj]['http://www.opengis.net/ont/geosparql#asWKT'])
                {
