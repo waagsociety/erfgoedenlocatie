@@ -111,61 +111,64 @@ function performQuery($scope, $http)
      //based on config, which is databound to selection of collections
      var query = createQuery();
      var url = 'http://erfgoedenlocatie.cloud.tilaa.com/sparql?query=' + encodeURIComponent(query);
+     //var url = 'http://localhost:8890/sparql?query=' + encodeURIComponent(query);
      
      $http({
           url: url,
           method: "GET",
           headers: {'Content-Type': 'application/ld+json', 'Accept' : 'application/ld+json'}
      }).success(function (data, status, headers, cfg) {
-          //console.log(data);
+          
           //create simplified objects for databinding
           var items = [];
 
           //parse the data
-          var graph = data['@graph'];
-
-          for(var obj in graph) 
+          for (key in data)
           {
-               var id = graph[obj]['@id'];
-			   var graphname = graph[obj]['http://purl.org/dc/elements/1.1/isPartOf'][0];
-			   
-			   var iconType = config.datasources[graphname.trim()].icon;
-			   console.log(iconType);
-               var geometry = undefined;
-               if(graph[obj]['http://www.opengis.net/ont/geosparql#asWKT'])
-               {
-                    var wkt = graph[obj]['http://www.opengis.net/ont/geosparql#asWKT'][0]['@value'];
+              var graph = data[key];
+
+              for(var obj in graph) 
+              {
+                    var id = graph[obj]['@id'];
+                    var graphname = graph[obj]['http://purl.org/dc/elements/1.1/isPartOf'][0];
+
+                    var iconType = config.datasources[graphname.trim()].icon;
+                    console.log(iconType);
+                    var geometry = undefined;
+
+                    if(graph[obj]['http://www.opengis.net/ont/geosparql#asWKT'])
+                    {
+                         var wkt = graph[obj]['http://www.opengis.net/ont/geosparql#asWKT'][0]['@value'];
+                         
+                         //TODO: fix this quick hack
+                         var coords = wkt.slice(6,-1).split(" ");
+                         geometry = { "type": "Point", "coordinates": [parseFloat(coords[0]) ,parseFloat(coords[1])] }; 
+                    }
                     
-                    //TODO: fix this quick hack
-                    var coords = wkt.slice(6,-1).split(" ");
-                    geometry = { "type": "Point", "coordinates": [parseFloat(coords[0]) ,parseFloat(coords[1])] }; 
-               }
-               
-               var description = undefined;
-               if(graph[obj]['http://www.w3.org/2000/01/rdf-schema#label'])
-               {
-                    description = graph[obj]['http://www.w3.org/2000/01/rdf-schema#label'][0]['@value'];
-               }
+                    var description = undefined;
+                    if(graph[obj]['http://www.w3.org/2000/01/rdf-schema#label'])
+                    {
+                         description = graph[obj]['http://www.w3.org/2000/01/rdf-schema#label'][0]['@value'];
+                    }
 
-               var thumbnail = undefined;
-			   
-               if(graph[obj]['http://xmlns.com/foaf/0.1/depiction'])
-               {
-                    thumbnail = graph[obj]['http://xmlns.com/foaf/0.1/depiction'][0];
-               }
+                    var thumbnail = undefined;
+	             	   
+                    if(graph[obj]['http://xmlns.com/foaf/0.1/depiction'])
+                    {
+                         thumbnail = graph[obj]['http://xmlns.com/foaf/0.1/depiction'][0];
+                    }
 
-               if(graph[obj]['http://xmlns.com/foaf/depiction'])
-               {
-                    thumbnail = graph[obj]['http://xmlns.com/foaf/depiction'][0];
-               }
+                    if(graph[obj]['http://xmlns.com/foaf/depiction'])
+                    {
+                         thumbnail = graph[obj]['http://xmlns.com/foaf/depiction'][0];
+                    }
 
-               var item = {'id': id, 'geometry' : geometry, 'description' : description, 'thumbnail' : thumbnail, 'icon' : iconType};
-               //only push items which have all properties defined
-               //if(item.description != undefined && item.description.length > 0 && item.thumbnail != undefined)
-               //{
+                    var item = {'id': id, 'geometry' : geometry, 'description' : description, 'thumbnail' : thumbnail, 'icon' : iconType};
                     items.push(item);
-               //} 
+            }
           }
+
+          
 
           $scope.defaultCollection = items;
 	  $scope.spatialSelection = items; //we don't have the map yet to calculate spatial filter
