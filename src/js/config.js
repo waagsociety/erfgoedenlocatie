@@ -33,7 +33,7 @@ const config =
                     'enabled' : false,
 					'icon': 'bbz',
                     'sparql' : 'SELECT DISTINCT * WHERE { GRAPH ?collection { ?entity rdfs:label ?title; ?imageproperty ?image; dcterms:coverage ?coverage . ?coverage ogcgs:hasGeometry ?geometry . ?geometry ?wktproperty ?wkt . \
-                         FILTER (?imageproperty = foaf:thumbnail) . \
+                         FILTER (?imageproperty = foaf:depiction) . \
                          FILTER (?wktproperty = ogcgs:asWKT) . }}'
                } 
           }

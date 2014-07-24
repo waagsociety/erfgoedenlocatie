@@ -110,6 +110,9 @@ function performQuery($scope, $http)
 {
     //based on config, which is databound to selection of collections
     var query = createQuery();
+
+    console.log(query);
+
     var url = 'http://erfgoedenlocatie.cloud.tilaa.com/sparql?query=' + encodeURIComponent(query);
     //var url = 'http://localhost:8890/sparql?query=' + encodeURIComponent(query);
 
@@ -149,9 +152,9 @@ function performQuery($scope, $http)
 
             var thumbnail = undefined;
 
-            if(graph[obj]['http://xmlns.com/foaf/0.1/thumbnail'])
+            if(graph[obj]['http://xmlns.com/foaf/0.1/depiction'])
             {
-                thumbnail = graph[obj]['http://xmlns.com/foaf/0.1/thumbnail'][0];
+                thumbnail = graph[obj]['http://xmlns.com/foaf/0.1/depiction'][0];
             }
 
             if(graph[obj]['http://xmlns.com/foaf/depiction'])
