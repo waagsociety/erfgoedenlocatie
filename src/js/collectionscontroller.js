@@ -111,7 +111,7 @@ function performQuery($scope, $http)
     //based on config, which is databound to selection of collections
     var query = createQuery();
 
-    console.log(query);
+    //console.log(query);
 
     var url = 'http://erfgoedenlocatie.cloud.tilaa.com/sparql?query=' + encodeURIComponent(query);
     //var url = 'http://localhost:8890/sparql?query=' + encodeURIComponent(query);
@@ -124,6 +124,7 @@ function performQuery($scope, $http)
 
         //create simplified objects for databinding
         var items = [];
+	console.log(data);
 
         //parse the data
         for (key in data) 
@@ -155,11 +156,6 @@ function performQuery($scope, $http)
             if(graph[obj]['http://xmlns.com/foaf/0.1/depiction'])
             {
                 thumbnail = graph[obj]['http://xmlns.com/foaf/0.1/depiction'][0];
-            }
-
-            if(graph[obj]['http://xmlns.com/foaf/depiction'])
-            {
-                thumbnail = graph[obj]['http://xmlns.com/foaf/depiction'][0];
             }
 
             var item = {'id': id, 'geometry' : geometry, 'description' : description, 'thumbnail' : thumbnail, 'icon' : iconType};

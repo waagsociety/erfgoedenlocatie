@@ -13,7 +13,7 @@ const config =
           PREFIX ogcgs:<http://www.opengis.net/ont/geosparql#> \
           PREFIX nco:<http://www.semanticdesktop.org/ontologies/2007/03/22/nco#>',
 
-     'construct' : 'CONSTRUCT {?entity rdfs:label ?title; dc:isPartOf ?collection; ?imageproperty ?image; ?wktproperty ?wkt}',
+     'construct' : 'CONSTRUCT {?entity rdfs:label ?title; dc:isPartOf ?collection; foaf:depiction ?image; ?wktproperty ?wkt; dc:date ?date}',
 
      'datasources' : 
           {'http://data.metamatter.nl/molens': 
@@ -23,7 +23,7 @@ const config =
                     'name' : 'Nationaal Molen Bestand', 
                     'enabled' : true,
 					'icon': 'molen',
-                    'sparql' : 'SELECT * WHERE { GRAPH ?collection { ?entity a <http://purl.org/dc/dcmitype/Image>; rdfs:label ?title; ?imageproperty ?image; ?wktproperty ?wkt . } \
+                    'sparql' : 'SELECT * WHERE { GRAPH ?collection { ?entity a <http://purl.org/dc/dcmitype/Image>; rdfs:label ?title; ?imageproperty ?image; ?wktproperty ?wkt; dc:date ?date . } \
                               FILTER (?imageproperty = foaf-metamatter:depiction) \
                               FILTER (?wktproperty = ogcgs:asWKT)}'
                },
@@ -32,7 +32,7 @@ const config =
                     'name' : 'Beeldbank Zeeland', 
                     'enabled' : false,
 					'icon': 'bbz',
-                    'sparql' : 'SELECT DISTINCT * WHERE { GRAPH ?collection { ?entity rdfs:label ?title; ?imageproperty ?image; dcterms:coverage ?coverage . ?coverage ogcgs:hasGeometry ?geometry . ?geometry ?wktproperty ?wkt . \
+                    'sparql' : 'SELECT DISTINCT * WHERE { GRAPH ?collection { ?entity rdfs:label ?title; ?imageproperty ?image; dcterms:coverage ?coverage; dcterms:date ?date . ?coverage ogcgs:hasGeometry ?geometry . ?geometry ?wktproperty ?wkt . \
                          FILTER (?imageproperty = foaf:depiction) . \
                          FILTER (?wktproperty = ogcgs:asWKT) . }}'
                } 
