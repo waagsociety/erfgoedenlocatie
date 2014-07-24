@@ -122,6 +122,16 @@ function performQuery($scope, $http)
         headers: {'Content-Type': 'application/ld+json', 'Accept' : 'application/ld+json'}
     }).success(function (data, status, headers, cfg) {
 
+        parseResponse($scope, data);
+
+    }).error(function (data, status, headers, cfg) {
+        console.log(status);
+    }); 
+}
+
+//transforms the result data into items for databinding
+function parseResponse($scope, data)
+{
         //create simplified objects for databinding
         var items = [];
 		//console.log(data);
@@ -172,15 +182,9 @@ function performQuery($scope, $http)
 
         }
 
-		console.log(items);
-
         $scope.defaultCollection = items;
         $scope.spatialSelection = items; //we don't have the map yet to calculate spatial filter
         $scope.selection = $scope.spatialSelection.slice(0,PAGE_SIZE);//randomly picked eight objects for now
-
-    }).error(function (data, status, headers, cfg) {
-        console.log(status);
-    }); 
 }
 
 //create a query based on the data sources
