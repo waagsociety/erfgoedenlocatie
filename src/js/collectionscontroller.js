@@ -134,7 +134,7 @@ function parseResponse($scope, data)
 {
         //create simplified objects for databinding
         var items = [];
-		//console.log(data);
+	console.log(data);
 
         //parse the data
         for (key in data) 
@@ -158,10 +158,7 @@ function parseResponse($scope, data)
             var description = undefined;
             if(graph[obj]['http://www.w3.org/2000/01/rdf-schema#label'])
             {
-                if(graph[obj]['http://www.w3.org/2000/01/rdf-schema#label'][0]['@type'] == 'http://www.w3.org/2001/XMLSchema#date')
-                {
-					description = graph[obj]['http://www.w3.org/2000/01/rdf-schema#label'][0]['@value'];
-				}
+                description = graph[obj]['http://www.w3.org/2000/01/rdf-schema#label'][0]['@value'];
             }
 
             var thumbnail = undefined;
@@ -171,12 +168,7 @@ function parseResponse($scope, data)
                 thumbnail = graph[obj]['http://xmlns.com/foaf/0.1/depiction'][0];
             }
 
-            if(graph[obj]['http://purl.org/dc/elements/1.1/date'])
-            {
-                date = graph[obj]['http://purl.org/dc/elements/1.1/date'][0];
-            }
-
-            var item = {'id': id, 'geometry' : geometry, 'description' : description, 'thumbnail' : thumbnail, 'icon' : iconType, 'date': date};
+            var item = {'id': id, 'geometry' : geometry, 'description' : description, 'thumbnail' : thumbnail, 'icon' : iconType};
             items.push(item);
             }
 
