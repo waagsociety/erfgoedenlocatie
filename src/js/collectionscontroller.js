@@ -4,7 +4,7 @@
 // CollectionItems: dit zijn individuele items in een collection
 const PAGE_SIZE = 9;
 
-function CollectionsController($scope, $http)
+angular.module('elviewer').controller('CollectionsController', ['$scope', '$http', function CollectionsController($scope, $http)
 {
     $scope.page = 0;//default page
 
@@ -103,7 +103,7 @@ function CollectionsController($scope, $http)
 
 
 
-}
+}]);
 
 //make a call to the server
 function performQuery($scope, $http)
