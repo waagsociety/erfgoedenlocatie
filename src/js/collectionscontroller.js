@@ -1,5 +1,9 @@
 // Collections: dit zijn linked data sets.
 // CollectionItems: dit zijn individuele items in een collection
+
+//This controller is responsible for the binding, collections
+//Also it communicates changes to the map
+//Basically is the controller for the left hand side of the interface
 angular.module('elviewer').controller('CollectionsController', ['$scope', '$http', 'Repository',function CollectionsController($scope, $http, Repository)
 {
     //bind to the single source of data
@@ -8,12 +12,26 @@ angular.module('elviewer').controller('CollectionsController', ['$scope', '$http
     $scope.$watch('datasources',
             function(newValue, oldValue)
             {
-                performQuery($scope, $http);
+                performQuery(Repository, $http);
             },
             true
             );
+
     //make config available as scope variable
     $scope.datasources = config.datasources;
+
+    //if the default collection changes, we need to update the spatial filter too
+    $scope.$watch('Repository.defaultCollection', function(newValue, oldValue)
+            {
+                if($scope.extent != undefined)
+                {
+                    $scope.updateSpatialFilter($scope.extent);
+                }
+                else //we don't have the map yet to calculate spatial filter
+                {
+                    Repository.spatialSelection = Repository.defaultCollection; 
+                }
+            },true);
 
     //we want to know when the collection changes 
     //so we can instruct open layers to update the markers.
@@ -24,11 +42,14 @@ angular.module('elviewer').controller('CollectionsController', ['$scope', '$http
                 updateMarkers(newValue);
             }, 
             true
-            );
+    );
 
     //update the spatial filter
     $scope.updateSpatialFilter = function(extent)
     {
+        //so we can remember when we need it
+        $scope.extent = extent;
+
         var filter = new Array();
 
         for(item in $scope.Repository.defaultCollection)
@@ -45,7 +66,7 @@ angular.module('elviewer').controller('CollectionsController', ['$scope', '$http
 }]);
 
 //make a call to the server
-function performQuery($scope, $http)
+function performQuery(Repository, $http)
 {
     //based on config, which is databound to selection of collections
     var query = createQuery();
@@ -61,7 +82,7 @@ function performQuery($scope, $http)
         headers: {'Content-Type': 'application/ld+json', 'Accept' : 'application/ld+json'}
     }).success(function (data, status, headers, cfg) {
 
-        parseResponse($scope, data);
+        parseResponse(Repository, data);
 
     }).error(function (data, status, headers, cfg) {
         console.log(status);
@@ -69,7 +90,7 @@ function performQuery($scope, $http)
 }
 
 //transforms the result data into items for databinding
-function parseResponse($scope, data)
+function parseResponse(Repository, data)
 {
         //create simplified objects for databinding
         var items = [];
@@ -122,9 +143,7 @@ function parseResponse($scope, data)
 
         }
 
-        $scope.Repository.defaultCollection = items;
-        $scope.Repository.spatialSelection = items; //we don't have the map yet to calculate spatial filter
-        $scope.selection = $scope.Repository.spatialSelection.slice(0,PAGE_SIZE);//randomly picked eight objects for now
+        Repository.defaultCollection = items;
 }
 
 //create a query based on the data sources
