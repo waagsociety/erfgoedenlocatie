@@ -152,12 +152,26 @@ button, input, select, textarea
 	{
 		position: absolute;
 		width: $tile_width;
+		overflow: hidden;
 		height: $tile_height;
 		top: $margin_default;
 		left: $margin_default;
 		background-color: $background_color;
 		line-height: $panel_height - 2;//quirck
-		
+	}
+
+	#picture
+	{
+		display: inline-block;
+		position: relative;
+
+		.full
+		{
+			position: relative;
+			max-width: $tile_width;
+			height: auto;
+			vertical-align: middle;
+		}
 	}
 
 	#close
@@ -176,13 +190,7 @@ button, input, select, textarea
 		}
 	}
 
-	.full
-	{
-		max-width: $tile_width;
-		max-height: $tile_height;
-		height: auto;
-		vertical-align: middle;
-	}
+	
 
 	.caption
 	{

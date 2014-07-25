@@ -94,7 +94,6 @@ function parseResponse(Repository, data)
 {
         //create simplified objects for databinding
         var items = [];
-	console.log(data);
 
         //parse the data
         for (key in data) 
@@ -137,7 +136,13 @@ function parseResponse(Repository, data)
 				}
             }
 
-            var item = {'id': id, 'geometry' : geometry, 'description' : description, 'thumbnail' : thumbnail, 'icon' : iconType, 'date': date};
+            //create a unique id that is adressable in the browser            
+            var id_parts = id.split("/");
+            var cid = id_parts[id_parts.length -2];
+            var iid = id_parts[id_parts.length -1];
+            var uid = cid + "_" + iid 
+
+            var item = {'id': id,  'uid': uid, 'geometry' : geometry, 'description' : description, 'thumbnail' : thumbnail, 'icon' : iconType, 'date': date};
             items.push(item);
             }
 

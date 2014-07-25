@@ -7,7 +7,7 @@ angular.module('elviewer',['ngRoute']).config(['$routeProvider',
         templateUrl:'grid.html'
     })
     .when('/item/:itemId', {
-        controller:'CollectionsController',
+        controller:'DetailController',
         templateUrl:'detail.html'
     })
     .otherwise({
@@ -20,6 +20,7 @@ angular.module('elviewer',['ngRoute']).config(['$routeProvider',
 angular.module('elviewer').factory('Repository', function(){
     return {
         defaultCollection: [], 
-        spatialFilter: []
+        spatialFilter: [],
+        selection: []
     };
 });

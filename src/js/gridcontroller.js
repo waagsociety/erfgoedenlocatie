@@ -13,7 +13,7 @@ angular.module('elviewer').controller('GridController', ['$scope', 'Repository',
             {
                 if(newValue != undefined)
                 {
-                    $scope.selection = newValue.slice(0,PAGE_SIZE);
+                    Repository.selection = newValue.slice(0,PAGE_SIZE);
                 }
             }, 
             true
@@ -23,14 +23,14 @@ angular.module('elviewer').controller('GridController', ['$scope', 'Repository',
     $scope.next = function()
     {
         $scope.page++;
-        var max = Math.floor($scope.Repository.spatialSelection.length/PAGE_SIZE); 
+        var max = Math.floor(Repository.spatialSelection.length/PAGE_SIZE); 
         if($scope.page >= max)
         {
             $scope.page = max;
         }
         var start_page = $scope.page * PAGE_SIZE;
         var end_page = start_page + PAGE_SIZE;  
-        $scope.selection = Repository.spatialSelection.slice(start_page,end_page);//randomly picked eight objects for now
+        Repository.selection = Repository.spatialSelection.slice(start_page,end_page);//randomly picked eight objects for now
     };
 
     //go to previous page of results
@@ -43,7 +43,7 @@ angular.module('elviewer').controller('GridController', ['$scope', 'Repository',
         }
         var start_page = $scope.page * PAGE_SIZE;
         var end_page = start_page + PAGE_SIZE;  
-        $scope.selection = Repository.spatialSelection.slice(start_page,end_page);//randomly picked eight objects for now
+        Repository.selection = Repository.spatialSelection.slice(start_page,end_page);//randomly picked eight objects for now
 
     };
 
@@ -54,14 +54,19 @@ angular.module('elviewer').controller('GridController', ['$scope', 'Repository',
         var page_end = page_start + (PAGE_SIZE - 2);
         var total = 0;
 
-        if($scope.Repository.spatialSelection != undefined)
+        if(Repository.spatialSelection != undefined)
         {
-            total = $scope.Repository.spatialSelection.length;
+            total = Repository.spatialSelection.length;
         }
 
         if($scope.selection != undefined)
         {
-            page_end = (page_start + 1) + ($scope.selection.length - 2);
+            page_end = (page_start + 1) + (Repository.selection.length - 2);
+        }
+
+        if(page_end > total)
+        {
+            page_end = total;
         }
 
         return page_start + " - " + page_end + " of " + total ;

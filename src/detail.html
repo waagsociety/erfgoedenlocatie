@@ -1,26 +1,26 @@
 <div id="detailPanel">
 	<div id="tile">
-		<img class="full" src="http://images.memorix.nl/rce/thumb/800x800/45fd1cc3-cd0b-bb79-66a0-e017f19af4db.jpg" />
+	  <div id="picture">
+	    <img class="full" src="{{item.thumbnail}}" />
+	 </div>
 		<div class="caption">
 			<br/>
 			<a href="javascript:void()">&gt;&gt;</a><br/>
 			<br/>
-			De Achtkante Molen
+			  {{item.description}} 
 			<br/>
 			<pre>
 {
-  <span class="key">id</span>: <span class="value">'450b23d7ce8ab963f69ea8eaf'</span>,
-  <span class="key">data</span>: <span class="value">'dit is data'</span>,
-  <span class="key">title</span>: <span class="value">'de achtkante molen'</span>,
-  <span class="key">value</span>: <span class="value">'over een molen'</span>,
-  <span class="key">location</span>: <span class="value">'in zeeland'</span>,
-  <span class="key">timespan</span>: <span class="value">'31/3 - 11/2'</span>
+  <span class="key">id</span>: <span class="value">'{{item.uid}}'</span>,
+  <span class="key">title</span>: <span class="value">'{{item.description}}'</span>,
+  <span class="key">location</span>: <span class="value">'{{item.geometry.coordinates}}'</span>,
+  <span class="key">date</span>: <span class="value">'{{item.date}}'</span>
 }
 			</pre>
 		</div>
 	</div>
-	<div id="close"><a href="javascript:void();">[x]</a></div>
+	<div id="close"><a href="#/">[x]</a></div>
 	<div id="pager">
-		<div class="label"><a href="javascript:void();">&lt;&lt;</a>&nbsp;&nbsp;11 of 55&nbsp;&nbsp;<a href="javascript:void();">&gt;&gt;</a></div>
+	  <div class="label"><a href="#/item/{{previous()}}">&lt;&lt;</a>&nbsp;&nbsp;{{itemIndex}} of {{Repository.spatialSelection.length}}&nbsp;&nbsp;<a href="#/item/{{next()}}">&gt;&gt;</a></div>
 	</div>
 </div>

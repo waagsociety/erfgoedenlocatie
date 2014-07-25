@@ -88,11 +88,22 @@ button, input, select, textarea {
   #detailPanel #tile {
     position: absolute;
     width: 600px;
+    overflow: hidden;
     height: 556px 20px;
     top: 10px;
     left: 10px;
     background-color: #cccccc;
     line-height: 554px; }
+  #detailPanel #picture {
+    display: inline-block;
+    position: relative; }
+    #detailPanel #picture .full {
+      position: relative;
+      max-width: 600px;
+      width: auto;
+      height: auto;
+      max-height: 556px;
+      vertical-align: middle; }
   #detailPanel #close {
     position: absolute;
     top: 10px;
@@ -102,11 +113,6 @@ button, input, select, textarea {
     font-size: 1.6em; }
     #detailPanel #close a {
       color: #fff; }
-  #detailPanel .full {
-    max-width: 600px;
-    max-height: 556px 20px;
-    height: auto;
-    vertical-align: middle; }
   #detailPanel .caption {
     position: absolute;
     top: 0;

@@ -1,7 +1,9 @@
 <div id="resultsPanel">
-  <div class="tile-{{$index}}" ng-repeat="collectionItem in selection">
-    <img class="thumbnail" ng-src="{{collectionItem.thumbnail}}" />
-    <div class="caption">{{collectionItem.description}}</div>
+  <div class="tile-{{$index}}" ng-repeat="collectionItem in Repository.selection">
+    <a href="#/item/{{collectionItem.uid}}">
+      <img class="thumbnail" ng-src="{{collectionItem.thumbnail}}" />
+      <div class="caption">{{collectionItem.description}}</div>
+    </a>
   </div>
 
   <div id="pager">
