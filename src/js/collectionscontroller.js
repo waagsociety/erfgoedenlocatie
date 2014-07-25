@@ -4,7 +4,7 @@
 // CollectionItems: dit zijn individuele items in een collection
 const PAGE_SIZE = 9;
 
-function CollectionsController($scope, $http)
+angular.module('elviewer').controller('CollectionsController', ['$scope', '$http', function CollectionsController($scope, $http)
 {
     $scope.page = 0;//default page
 
@@ -103,7 +103,7 @@ function CollectionsController($scope, $http)
 
 
 
-}
+}]);
 
 //make a call to the server
 function performQuery($scope, $http)
@@ -134,7 +134,7 @@ function parseResponse($scope, data)
 {
         //create simplified objects for databinding
         var items = [];
-		//console.log(data);
+	console.log(data);
 
         //parse the data
         for (key in data) 
@@ -158,7 +158,7 @@ function parseResponse($scope, data)
             var description = undefined;
             if(graph[obj]['http://www.w3.org/2000/01/rdf-schema#label'])
             {
-				description = graph[obj]['http://www.w3.org/2000/01/rdf-schema#label'][0]['@value'];
+                description = graph[obj]['http://www.w3.org/2000/01/rdf-schema#label'][0]['@value'];
             }
 
             var thumbnail = undefined;
@@ -168,7 +168,7 @@ function parseResponse($scope, data)
                 thumbnail = graph[obj]['http://xmlns.com/foaf/0.1/depiction'][0];
             }
 
-			var date = undefined;
+	    var date = undefined;
             if(graph[obj]['http://purl.org/dc/elements/1.1/date'])
             {
                 if(graph[obj]['http://purl.org/dc/elements/1.1/date'][0]['@type'] == 'http://www.w3.org/2001/XMLSchema#date')
