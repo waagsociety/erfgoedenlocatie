@@ -1,15 +1,9 @@
-/* responsible for managing collections */
-// We hebben:
 // Collections: dit zijn linked data sets.
 // CollectionItems: dit zijn individuele items in een collection
-const PAGE_SIZE = 9;
-
-angular.module('elviewer').controller('CollectionsController', ['$scope', '$http', function CollectionsController($scope, $http)
+angular.module('elviewer').controller('CollectionsController', ['$scope', '$http', 'Repository',function CollectionsController($scope, $http, Repository)
 {
-    $scope.page = 0;//default page
-
-    //make config available as scope variable
-    $scope.datasources = config.datasources;
+    //bind to the single source of data
+    $scope.Repository = Repository;
 
     $scope.$watch('datasources',
             function(newValue, oldValue)
@@ -18,10 +12,12 @@ angular.module('elviewer').controller('CollectionsController', ['$scope', '$http
             },
             true
             );
+    //make config available as scope variable
+    $scope.datasources = config.datasources;
 
     //we want to know when the collection changes 
     //so we can instruct open layers to update the markers.
-    $scope.$watch('spatialSelection', 
+    $scope.$watch('Repository.spatialSelection', 
             function(newValue, oldValue)
             {
                 //calls function in ol_marker.js
@@ -33,76 +29,19 @@ angular.module('elviewer').controller('CollectionsController', ['$scope', '$http
     //update the spatial filter
     $scope.updateSpatialFilter = function(extent)
     {
-        console.log('sp update' + $scope);
         var filter = new Array();
 
-        for(item in $scope.defaultCollection)
+        for(item in $scope.Repository.defaultCollection)
         {
-            var obj = $scope.defaultCollection[item];
+            var obj = $scope.Repository.defaultCollection[item];
             var inside = ol.extent.containsCoordinate(extent, obj.geometry.coordinates);
             if(inside)
             {
                 filter.push(obj);
             }
         }
-        console.log('in filter: ' + filter.length);
-        $scope.spatialSelection = filter;
-        $scope.selection = $scope.spatialSelection.slice(0,PAGE_SIZE);
+        Repository.spatialSelection = filter;
     }
-
-    //go to next page of results
-    $scope.next = function()
-    {
-        $scope.page++;
-        var max = Math.floor($scope.spatialSelection.length/PAGE_SIZE); 
-        if($scope.page >= max)
-        {
-            $scope.page = max;
-        }
-        console.log('page: ' + $scope.page);
-
-        var start_page = $scope.page * PAGE_SIZE;
-        var end_page = start_page + PAGE_SIZE;  
-        $scope.selection = $scope.spatialSelection.slice(start_page,end_page);//randomly picked eight objects for now
-    };
-
-    //go to previous page of results
-    $scope.previous = function()
-    {
-        $scope.page--;
-        if($scope.page < 0 )
-        {
-            $scope.page = 0;
-        }
-        console.log('page: ' + $scope.page); 
-        var start_page = $scope.page * PAGE_SIZE;
-        var end_page = start_page + PAGE_SIZE;  
-        $scope.selection = $scope.spatialSelection.slice(start_page,end_page);//randomly picked eight objects for now
-
-    };
-
-    //client side paging of results
-    $scope.pageString = function()
-    {
-        var page_start = ($scope.page * PAGE_SIZE) + 1;
-        var page_end = page_start + (PAGE_SIZE - 2);
-        var total = 0;
-
-        if($scope.spatialSelection != undefined)
-        {
-            total = $scope.spatialSelection.length;
-        }
-
-        if($scope.selection != undefined)
-        {
-            page_end = (page_start + 1) + ($scope.selection.length - 2);
-        }
-
-        return page_start + " - " + page_end + " of " + total ;
-    };
-
-
-
 }]);
 
 //make a call to the server
@@ -183,9 +122,9 @@ function parseResponse($scope, data)
 
         }
 
-        $scope.defaultCollection = items;
-        $scope.spatialSelection = items; //we don't have the map yet to calculate spatial filter
-        $scope.selection = $scope.spatialSelection.slice(0,PAGE_SIZE);//randomly picked eight objects for now
+        $scope.Repository.defaultCollection = items;
+        $scope.Repository.spatialSelection = items; //we don't have the map yet to calculate spatial filter
+        $scope.selection = $scope.Repository.spatialSelection.slice(0,PAGE_SIZE);//randomly picked eight objects for now
 }
 
 //create a query based on the data sources

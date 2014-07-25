@@ -3,7 +3,7 @@ angular.module('elviewer',['ngRoute']).config(['$routeProvider',
         function($routeProvider){
              $routeProvider
     .when('/', {
-        controller:'CollectionsController',
+        controller:'GridController',
         templateUrl:'grid.html'
     })
     .when('/item/:itemId', {
@@ -14,3 +14,12 @@ angular.module('elviewer',['ngRoute']).config(['$routeProvider',
         redirectTo:'/'
     });
 }]);
+
+//This factory is responsible for providing a single Repository of data 
+//that can be shared across controllers
+angular.module('elviewer').factory('Repository', function(){
+    return {
+        defaultCollection: [], 
+        spatialFilter: []
+    };
+});
