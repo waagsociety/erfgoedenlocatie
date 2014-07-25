@@ -132,8 +132,8 @@ function parseResponse(Repository, data)
             {
                 if(graph[obj]['http://purl.org/dc/elements/1.1/date'][0]['@type'] == 'http://www.w3.org/2001/XMLSchema#date')
                 {
-					date = graph[obj]['http://purl.org/dc/elements/1.1/date'][0];
-				}
+                    date = graph[obj]['http://purl.org/dc/elements/1.1/date'][0]["@value"];
+                }
             }
 
             //create a unique id that is adressable in the browser            
