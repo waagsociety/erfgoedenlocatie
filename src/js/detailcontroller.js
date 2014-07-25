@@ -2,7 +2,7 @@ angular.module('elviewer').controller('DetailController', ['$scope', '$routePara
 {
     //get the uid from the routing
     var itemId = $routeParams.itemId;
-    
+
     //get the actual item from the repository
     var item = Repository.defaultCollection.filter(function(item){
             return item.uid === itemId;
@@ -13,7 +13,7 @@ angular.module('elviewer').controller('DetailController', ['$scope', '$routePara
     { 
 
         //TODO: make a call to virtuoso for this specific unique ID
-
+        console.log('refresh');
         //redirect
         location.href = "#/";
     }
@@ -25,7 +25,7 @@ angular.module('elviewer').controller('DetailController', ['$scope', '$routePara
     $scope.Repository = Repository;
     $scope.itemIndex = index + 1;
     $scope.itemId = itemId;
-    $scope.item = item; 
+    $scope.item = item;
 
     //return the uid of the next item
     //unless it is the last
@@ -54,6 +54,28 @@ angular.module('elviewer').controller('DetailController', ['$scope', '$routePara
             return $scope.itemId;
         }
         return previous.uid;
+    };
+
+    //toggle the data panel
+    $scope.toggle = function()
+    {
+        //change the arrow
+        var arrowEl = document.getElementById("arrow");
+        var bodyEl = document.getElementById("detailsBody");
+        var detailsEl = document.getElementById("details");
+        if(detailsEl.getAttribute("class") == "caption")
+        {
+            arrowEl.innerHTML = "&lt;&lt;";
+            bodyEl.style.display = "none";
+            detailsEl.setAttribute("class","caption-close");
+        }
+        else
+        {
+            arrowEl.innerHTML = "&gt;&gt;";
+            bodyEl.style.display = "block";
+            detailsEl.setAttribute("class","caption");
+        }
+
     };
     
 }]);

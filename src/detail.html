@@ -3,20 +3,22 @@
 	  <div id="picture">
 	    <img class="full" src="{{item.thumbnail}}" />
 	 </div>
-		<div class="caption">
+		<div id="details" class="caption">
 			<br/>
-			<a href="javascript:void()">&gt;&gt;</a><br/>
-			<br/>
+			<a id="arrow" href="" ng-click="toggle()">&gt;&gt;</a><br/>
+			<div id="detailsBody" style="display:block">
+			  <br/>
 			  {{item.description}} 
-			<br/>
-			<pre>
+			  <br/>
+			  <pre>
 {
   <span class="key">id</span>: <span class="value">'{{item.uid}}'</span>,
   <span class="key">title</span>: <span class="value">'{{item.description}}'</span>,
   <span class="key">location</span>: <span class="value">'{{item.geometry.coordinates}}'</span>,
   <span class="key">date</span>: <span class="value">'{{item.date}}'</span>
 }
-			</pre>
+			  </pre>
+			</div>
 		</div>
 	</div>
 	<div id="close"><a href="#/">[x]</a></div>

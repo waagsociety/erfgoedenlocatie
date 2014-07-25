@@ -128,6 +128,21 @@ button, input, select, textarea {
     background-color: rgba(0, 0, 0, 0.6);
     text-overflow: ellipsis;
     overflow: hidden; }
+  #detailPanel .caption-close {
+    position: absolute;
+    top: 0;
+    left: 570px;
+    width: 215px;
+    height: 554px;
+    font-family: monospace;
+    color: white;
+    font-size: 1.2em;
+    line-height: 1em;
+    text-align: left;
+    padding-left: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    text-overflow: ellipsis;
+    overflow: hidden; }
   #detailPanel pre {
     font-size: .7em;
     text-align: left;
