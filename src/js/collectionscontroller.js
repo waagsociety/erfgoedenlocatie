@@ -4,7 +4,7 @@
 //This controller is responsible for the binding, collections
 //Also it communicates changes to the map
 //Basically is the controller for the left hand side of the interface
-angular.module('elviewer').controller('CollectionsController', ['$scope', '$http', 'Repository',function CollectionsController($scope, $http, Repository)
+angular.module('elviewer').controller('CollectionsController', ['$scope', 'Repository',function CollectionsController($scope, Repository)
 {
     //bind to the single source of data
     $scope.Repository = Repository;

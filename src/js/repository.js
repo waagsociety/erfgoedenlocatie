@@ -6,7 +6,7 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
         this.defaultCollection = []; 
         this.spatialFilter = [];
         this.selection = [];
-       
+
         //peforms the default query 
         this.performQuery = function()
         {
@@ -29,7 +29,7 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
                 console.log(status);
             }); 
         };
-        
+
         //creates the default query
         this.createQuery = function()
         {
