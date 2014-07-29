@@ -39,7 +39,7 @@ console.log("map init");
       {
 	var feature = e.target.item(0);
 	//clear selection
-	select.getFeatures().clear();
+	//select.getFeatures().clear();
 	//redirect to the feature in question
 	window.location.href = "#/item/" + feature.getId();
       }
