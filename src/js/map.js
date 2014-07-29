@@ -2,6 +2,7 @@ var theMap;
 var iconSelectStyle;
 var iconStyle; 
 var theView;
+var select;
 
 function initMap() {
 console.log("map init");
@@ -27,13 +28,30 @@ console.log("map init");
     theMap.on('moveend', onMoveEnd);
 	startExtent = [385000, 6650000, 830000, 7100000]
 	theView.fitExtent(startExtent, theMap.getSize());
+
+    //create an empty selection style
+    //we are handling those ourself
+    select = new ol.interaction.Select();
+    theMap.addInteraction(select);
+    //subscribe to changes in selection by the map
+    select.getFeatures().on('change:length',function(e)
+    {
+      if(e.target.getArray().length > 0)
+      {
+	var feature = e.target.item(0);
+	//clear selection
+	select.getFeatures().clear();
+
+	//redirect to the feature in question
+	window.location.href = "#/item/" + feature.getId();
+      }
+    });
 }
 
 //actually works, but was invisible because lots of markers are in the same spot
 function highlightMarker(item)
 {
   //TODO: use clustering instead
-  console.log('highlight marker: ' + item.uid);
   var layer = theMap.getLayers().item(1);
   var source = layer.getSource();
   var feature = source.getFeatureById(item.uid);
@@ -120,7 +138,7 @@ function updateMarkers(collection)
   //console.log('map size ' + theMap.getSize());
   
   //theView.fitExtent(vector.getSource().getExtent(), theMap.getSize());
-  //theMap.addInteraction(new ol.interaction.Select({style: iconSelectStyle}));
+  
   //console.log(theMap);
 }
 

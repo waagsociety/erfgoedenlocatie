@@ -32,7 +32,6 @@ angular.module('elviewer').controller('DetailController', ['$scope', '$routePara
     {
         if(newValue != undefined)
         {
-            console.log('item changed: ' + newValue.uid);
             highlightMarker(newValue);
         }
     });
@@ -42,16 +41,13 @@ angular.module('elviewer').controller('DetailController', ['$scope', '$routePara
     $scope.next = function()
     {
         var index = $scope.itemIndex - 1;
+        var next = Repository.spatialSelection[index+1];
 
-        if(index >= 0)
-        {
-            var next = Repository.spatialSelection[index+1];
-            return next.uid;
-        }
-        else
+        if(next == undefined)
         {
             return $scope.itemId;
         }
+        return next.uid;
     };
 
     //return uid of the previous item
