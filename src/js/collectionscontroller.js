@@ -8,6 +8,7 @@ angular.module('elviewer').controller('CollectionsController', ['$scope', 'Repos
 {
     //bind to the single source of data
     $scope.Repository = Repository;
+	$scope.subjects = subjects;
     
     $scope.$watch('datasources',
             function(newValue, oldValue)
@@ -64,3 +65,16 @@ angular.module('elviewer').controller('CollectionsController', ['$scope', 'Repos
         Repository.spatialSelection = filter;
     }
 }]);
+
+angular.module('elviewer').directive('autoComplete', function($timeout) {
+    return function(scope, iElement, iAttrs) {
+	        console.log('in autocomplete');
+            iElement.autocomplete({
+                source: scope[iAttrs.uiItems],
+                select: function() {
+                    $timeout(function() {
+                      iElement.trigger('input');
+                    }, 0);
+                }
+            });
+}});
