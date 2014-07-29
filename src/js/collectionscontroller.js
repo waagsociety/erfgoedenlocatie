@@ -9,15 +9,16 @@ angular.module('elviewer').controller('CollectionsController', ['$scope', 'Repos
     //bind to the single source of data
     $scope.Repository = Repository;
 	$scope.subjects = subjects;
+	$scope.selectedSubject = [];
     
     $scope.$watch('datasources',
             function(newValue, oldValue)
             {
-                Repository.performQuery();
+                Repository.defaultQuery();
             },
             true
             );
-
+	
     //make config available as scope variable
     $scope.datasources = config.datasources;
 
@@ -45,6 +46,11 @@ angular.module('elviewer').controller('CollectionsController', ['$scope', 'Repos
             true
     );
 
+	$scope.doSearch = function()
+	{
+		console.log($scope.search_selection);
+	};
+	
     //update the spatial filter
     $scope.updateSpatialFilter = function(extent)
     {
@@ -63,7 +69,7 @@ angular.module('elviewer').controller('CollectionsController', ['$scope', 'Repos
             }
         }
         Repository.spatialSelection = filter;
-    }
+    };
 }]);
 
 angular.module('elviewer').directive('autoComplete', function($timeout) {

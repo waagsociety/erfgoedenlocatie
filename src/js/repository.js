@@ -7,12 +7,22 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
         this.spatialFilter = [];
         this.selection = [];
 
+		this.performSearch = function(subject)
+		{
+			var query = this.createQuery(subject);
+			this.performQuery(query);
+		}
+		
+		this.defaultQuery = function()
+		{
+			var query = this.createQuery(undefined);
+			console.log("default query: " + query);
+			this.performQuery(query);
+		}
+		
         //peforms the default query 
-        this.performQuery = function()
-        {
-            //based on config, which is databound to selection of collections
-            var query = this.createQuery();
-            
+        this.performQuery = function(query)
+        {   
             //TODO: get from config
             var url = 'http://erfgoedenlocatie.cloud.tilaa.com/sparql?query=' + encodeURIComponent(query);
             var scope = this;
@@ -26,12 +36,12 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
                 scope.parseResponse(data);
 
             }).error(function (data, status, headers, cfg) {
-                console.log(status);
+                console.log("http error: " + status);
             }); 
         };
 
         //creates the default query
-        this.createQuery = function()
+        this.createQuery = function(subject)
         {
             var query = config.prefixes + "\n" + config.construct + ' WHERE {\n';
 
@@ -54,6 +64,10 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
                 }
 
                 query += "\n}";
+				if(subject) 
+				{
+					query += "subject: " + subject;
+				}
                 return query;
         }
 

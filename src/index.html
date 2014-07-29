@@ -55,8 +55,8 @@
 			</div>
 			<div class="list">	
 				<form>
-					<input auto-complete ui-items="subjects" ng-model="search_selection"/> 
-					<input type="submit" value="Zoek">
+					<input id="subjectInput" auto-complete ui-items="subjects" ng-model="search_selection"/> 
+					<input type="button" value="Zoek" ng-click="doSearch()">
 				</form>
 			</div>
 		</div>
