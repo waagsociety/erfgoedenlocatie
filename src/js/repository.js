@@ -16,7 +16,6 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
 		this.defaultQuery = function()
 		{
 			var query = this.createQuery(undefined);
-			console.log("default query: " + query);
 			this.performQuery(query);
 		}
 		
@@ -57,17 +56,23 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
                         {
                             query += " UNION \n";
                         }
-                        query +=  "{\n" + ds.sparql + " LIMIT 100 }";
+						query +=  "{\n" + ds.sparql;
+						if(subject == undefined){
+							query += " LIMIT 100 ";
+						}
+						query += "}"
                         count++;
                     }
 
                 }
-
-                query += "\n}";
+				console.log(subject);
+                query += "\n";
 				if(subject) 
 				{
-					query += "subject: " + subject;
+					query += "FILTER (?subject = \'" + subject + "\')";
 				}
+				query += "\n} LIMIT 500";
+				console.log(query);
                 return query;
         }
 
@@ -117,6 +122,12 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
                         date = graph[obj]['http://purl.org/dc/elements/1.1/date'][0]["@value"];
                     }
                 }
+				
+				var subject = undefined;
+                if(graph[obj]['http://purl.org/dc/elements/1.1/subject'])
+                {
+                    subject = graph[obj]['http://purl.org/dc/elements/1.1/subject'][0]['@value'];
+                }
 
                 //create a unique id that is adressable in the browser            
                 var id_parts = id.split("/");
@@ -124,7 +135,7 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
                 var iid = id_parts[id_parts.length -1];
                 var uid = cid + "_" + iid 
 
-                var item = {'id': id,  'uid': uid, 'geometry' : geometry, 'description' : description, 'thumbnail' : thumbnail, 'icon' : iconType, 'date': date};
+                var item = {'id': id,  'uid': uid, 'geometry' : geometry, 'description' : description, 'thumbnail' : thumbnail, 'icon' : iconType, 'date': date, 'subject': subject};
                 items.push(item);
                 }
 

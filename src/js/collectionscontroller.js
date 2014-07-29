@@ -48,6 +48,7 @@ angular.module('elviewer').controller('CollectionsController', ['$scope', 'Repos
 
 	$scope.doSearch = function()
 	{
+		Repository.performSearch($scope.search_selection);
 		console.log($scope.search_selection);
 	};
 	
