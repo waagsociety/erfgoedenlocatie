@@ -1,6 +1,7 @@
 angular.module('elviewer').controller('DetailController', ['$scope', '$routeParams', 'Repository',function DetailController($scope, $routeParams, Repository)
 {
     $scope.Repository = Repository;
+
     
     //get the uid from the routing
     var itemId = $routeParams.itemId;
@@ -25,6 +26,16 @@ angular.module('elviewer').controller('DetailController', ['$scope', '$routePara
     {
         bind(itemId,Repository,$scope);
     }
+
+    //only when we have an actual item update the markers
+    $scope.$watch('item', function(newValue, oldValue)
+    {
+        if(newValue != undefined)
+        {
+            console.log('item changed: ' + newValue.uid);
+            highlightMarker(newValue);
+        }
+    });
 
     //return the uid of the next item
     //unless it is the last
