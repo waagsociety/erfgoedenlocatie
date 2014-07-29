@@ -2,7 +2,6 @@ var theMap;
 var iconSelectStyle;
 var iconStyle; 
 var theView;
-var select;
 
 function initMap() {
 console.log("map init");
@@ -30,9 +29,9 @@ console.log("map init");
 	theView.fitExtent(startExtent, theMap.getSize());
 
     //create an empty selection style
-    //we are handling those ourself
-    select = new ol.interaction.Select();
-    theMap.addInteraction(select);
+    //we are handling painting selections ourself
+    var select = new ol.interaction.Select();
+
     //subscribe to changes in selection by the map
     select.getFeatures().on('change:length',function(e)
     {
@@ -41,11 +40,12 @@ console.log("map init");
 	var feature = e.target.item(0);
 	//clear selection
 	select.getFeatures().clear();
-
 	//redirect to the feature in question
 	window.location.href = "#/item/" + feature.getId();
       }
     });
+
+    theMap.addInteraction(select);
 }
 
 //actually works, but was invisible because lots of markers are in the same spot
