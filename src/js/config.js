@@ -30,7 +30,7 @@ const config =
                //beeldbank zeeland
                'http://datalab.bibliotheek.nl/bbz': {
                     'name' : 'Beeldbank Zeeland', 
-                    'enabled' : false,
+                    'enabled' : true,
 					'icon': 'bbz',
                     'sparql' : 'SELECT DISTINCT * WHERE { GRAPH ?collection { ?entity rdfs:label ?title; ?imageproperty ?image; dcterms:coverage ?coverage; dcterms:date ?date; dcterms:subject ?concept. ?concept a <http://www.w3.org/2004/02/skos/core#Concept>; rdfs:label ?subject . ?coverage ogcgs:hasGeometry ?geometry . ?geometry ?wktproperty ?wkt . \
                          FILTER (?imageproperty = foaf:depiction) . \
