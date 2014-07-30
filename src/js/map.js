@@ -3,6 +3,13 @@ var iconSelectStyle;
 var iconStyle; 
 var theView;
 
+//add 'startsWith' method
+if(!String.prototype.startsWith){
+    String.prototype.startsWith = function (str) {
+        return !this.indexOf(str);
+    }
+}
+
 function initMap() {
 console.log("map init");
     var raster = new ol.layer.Tile({
@@ -21,7 +28,7 @@ console.log("map init");
   var x = (Math.random() * (486521-382261) + 382261);
   var y = (Math.random() * (6753900-6690000) + 6690000);
 
-  theView = new ol.View({center: [x, y], zoom: 11});
+  theView = new ol.View({center: [x, y], zoom: 12});
    
   theMap = new ol.Map({
     layers: [raster],
