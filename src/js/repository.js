@@ -7,15 +7,15 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
         this.spatialFilter = [];
         this.selection = [];
 
-		this.performSearch = function(subject)
+		this.performSearch = function(subject, spatialExtent)
 		{
-			var query = this.createQuery(subject);
+			var query = this.createQuery(subject, spatialExtent);
 			this.performQuery(query);
 		}
 		
-		this.defaultQuery = function()
+		this.defaultQuery = function(spatialExtent)
 		{
-			var query = this.createQuery(undefined);
+			var query = this.createQuery(undefined, spatialExtent);
 			this.performQuery(query);
 		}
 		
@@ -40,7 +40,7 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
         };
 
         //creates the default query
-        this.createQuery = function(subject)
+        this.createQuery = function(subject, spatialExtent)
         {
             var query = config.prefixes + "\n" + config.construct + ' WHERE {\n';
 
@@ -65,14 +65,12 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
                     }
 
                 }
-				console.log(subject);
                 query += "\n";
 				if(subject) 
 				{
 					query += "FILTER (?subject = \'" + subject + "\')";
 				}
-				query += "\n} LIMIT 500";
-				console.log(query);
+				query += "\n} LIMIT 5000";
                 return query;
         }
 

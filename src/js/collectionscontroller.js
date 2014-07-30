@@ -46,6 +46,11 @@ angular.module('elviewer').controller('CollectionsController', ['$scope', 'Repos
             true
     );
 
+	$scope.spatialQuery = function(spatialExtent)
+	{
+		Repository.defaultQuery(spatialExtent);
+	}
+
 	$scope.doSearch = function()
 	{
 		Repository.performSearch($scope.search_selection);
