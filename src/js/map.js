@@ -17,7 +17,12 @@ console.log("map init");
       src: 'icons/windmill-selected.png'
     }))
   });  
-  theView = new ol.View({center: [0, 0], zoom: 2});
+  
+  var x = (Math.random() * (486521-382261) + 382261);
+  var y = (Math.random() * (6753900-6690000) + 6690000);
+
+  theView = new ol.View({center: [x, y], zoom: 12});
+   
   theMap = new ol.Map({
     layers: [raster],
     target: 'mapPanel',
@@ -25,8 +30,8 @@ console.log("map init");
 	   });
 	console.log('map size: ' + theMap.getSize());
     theMap.on('moveend', onMoveEnd);
-	startExtent = [385000, 6650000, 830000, 7100000]
-	theView.fitExtent(startExtent, theMap.getSize());
+	//startExtent = [385000, 6650000, 830000, 7100000]
+	//theView.fitExtent(startExtent, theMap.getSize());
 
     //create an empty selection style
     //we are handling painting selections ourself
@@ -149,5 +154,6 @@ function onMoveEnd(evt) {
 	var el = document.getElementById('rootContainer');
 	var scope = angular.element(el).scope();
 	scope.updateSpatialFilter(extent_wgs84);
+	console.log(extent_wgs84);
 	scope.$apply();
 }
