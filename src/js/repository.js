@@ -56,9 +56,9 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
                         {
                             query += " UNION \n";
                         }
-						query +=  "{\n" + ds.sparql;
+						query += "{\n" + ds.sparql.replace(/POLYGON\(\(.*\)\)\"\)\)\)/, "POLYGON((" + spatialExtent[0] + " " + spatialExtent[1] + "," + spatialExtent[0] + " " + spatialExtent[3] + "," + spatialExtent[2] + " " + spatialExtent[3] + "," + spatialExtent[2] + " " + spatialExtent[1] + "," + spatialExtent[0] + " " + spatialExtent[1] + "))\")))");
 						if(subject == undefined){
-							query += " LIMIT 100 ";
+							query += " LIMIT 500 ";
 						}
 						query += "}"
                         count++;
@@ -71,6 +71,7 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
 					query += "FILTER (?subject = \'" + subject + "\')";
 				}
 				query += "\n} LIMIT 5000";
+				console.log(query)
                 return query;
         }
 

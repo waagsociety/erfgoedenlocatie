@@ -122,7 +122,7 @@ function updateMarkers(collection)
     newFeature.setId(collection[item].uid);
 
     iconType = collection[item].icon;
-    console.log('icons/' + iconType + '.png');
+    //console.log('icons/' + iconType + '.png');
 
     newFeature.setStyle(new ol.style.Style({
       image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
