@@ -161,7 +161,7 @@ function onMoveEnd(evt) {
 	var el = document.getElementById('rootContainer');
 	var scope = angular.element(el).scope();
 	scope.spatialQuery(extent_wgs84);
-	scope.updateSpatialFilter(extent_wgs84);
+	//scope.updateSpatialFilter(extent_wgs84);
 	console.log(extent_wgs84);
 	scope.$apply();
 }

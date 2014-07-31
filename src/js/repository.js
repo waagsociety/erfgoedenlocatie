@@ -1,6 +1,8 @@
 //repository service,
 //singleton collection shareable between controllers,
 //responsible for communication with server.
+var isProcessing = false;
+
 angular.module('elviewer').service('Repository', ['$http', function($http)
 {
         this.defaultCollection = []; 
@@ -22,6 +24,14 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
         //peforms the default query 
         this.performQuery = function(query)
         {   
+            if (isProcessing) 
+            {
+				return;
+			}
+            else {
+				isProcessing = true;
+			}
+			
             //TODO: get from config
             var url = 'http://erfgoedenlocatie.cloud.tilaa.com/sparql?query=' + encodeURIComponent(query);
             var scope = this;
@@ -31,11 +41,13 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
                 method: "GET",
                 headers: {'Content-Type': 'application/ld+json', 'Accept' : 'application/ld+json'}
             }).success(function (data, status, headers, cfg) {
-
+				
                 scope.parseResponse(data);
+                isProcessing = false;
 
             }).error(function (data, status, headers, cfg) {
                 console.log("http error: " + status);
+                isProcessing = false;
             }); 
         };
 
@@ -73,7 +85,7 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
 						}
 						
 						if(subject == undefined){
-							query += " LIMIT 5000 ";
+							query += " LIMIT 1000 ";
 						}
 						query += "}"
                         count++;
@@ -85,7 +97,7 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
 				{
 					query += "FILTER (?subject = \'" + subject + "\')";
 				}
-				query += "\n} LIMIT 10000";
+				query += "\n} LIMIT 2000";
 				console.log(query)
                 return query;
         }
