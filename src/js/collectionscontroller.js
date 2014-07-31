@@ -42,6 +42,7 @@ angular.module('elviewer').controller('CollectionsController', ['$scope', 'Repos
             {
                 //calls function in ol_marker.js
                 updateMarkers(newValue);
+				updateTime(newValue);
             }, 
             true
     );
