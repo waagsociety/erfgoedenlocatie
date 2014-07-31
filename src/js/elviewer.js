@@ -14,13 +14,3 @@ angular.module('elviewer',['ngRoute']).config(['$routeProvider',
         redirectTo:'/'
     });
 }]);
-
-//This factory is responsible for providing a single Repository of data 
-//that can be shared across controllers
-angular.module('elviewer').factory('Repository', function(){
-    return {
-        defaultCollection: [], 
-        spatialFilter: [],
-        selection: []
-    };
-});
