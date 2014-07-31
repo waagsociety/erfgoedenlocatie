@@ -59,6 +59,12 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
                         
 						if (spatialExtent) 
 						{
+							//remove 4 lines below to extend bounds beyond Zeeland
+							if( spatialExtent[0] < 3.36) { spatialExtent[0] = 3.36 }
+							if( spatialExtent[1] < 51.20) { spatialExtent[1] = 51.20 }
+							if( spatialExtent[2] > 4.42) { spatialExtent[2] = 4.42 }
+							if( spatialExtent[3] > 51.86) { spatialExtent[3]= 51.86 }
+
 							query += "{\n" + ds.sparql.replace(/POLYGON\(\(.*\)\)\"\)\)\)/, "POLYGON((" + spatialExtent[0] + " " + spatialExtent[1] + "," + spatialExtent[0] + " " + spatialExtent[3] + "," + spatialExtent[2] + " " + spatialExtent[3] + "," + spatialExtent[2] + " " + spatialExtent[1] + "," + spatialExtent[0] + " " + spatialExtent[1] + "))\")))");
 						}
 						else
