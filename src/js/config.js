@@ -23,20 +23,22 @@ const config =
                     'name' : 'Nationaal Molen Bestand', 
                     'enabled' : true,
 					'icon': 'molen',
-                    'sparql' : 'SELECT DISTINCT ?collection ?entity ?title ?image ?wktproperty ?subject ?wkt ?date (bif:st_within(?wkt, bif:st_geomfromtext("POLYGON((3.36 51.86,4.42 51.86, 4.42 51.20, 3.36 51.20, 3.36 51.86))"))) \
-							  WHERE { GRAPH ?collection { ?entity a <http://purl.org/dc/dcmitype/Image>; rdfs:label ?title; ?imageproperty ?image; ?wktproperty ?wkt; dc:date ?date; dcterms:subject ?concept. ?concept a <http://www.w3.org/2004/02/skos/core#Concept>; rdfs:label ?subject . } \
+                    'sparql' : 'SELECT DISTINCT ?collection ?entity ?title ?image ?wktproperty ?subject ?wkt ?date \
+							  WHERE { GRAPH ?collection { ?entity a <http://purl.org/dc/dcmitype/Image>; rdfs:label ?title; ?imageproperty ?image; ?wktproperty ?wkt; dc:date ?date; dcterms:subject ?concept. ?concept a <http://www.w3.org/2004/02/skos/core#Concept>; rdfs:label ?subject .  \
                               FILTER (?imageproperty = foaf-metamatter:depiction) \
-                              FILTER (?wktproperty = ogcgs:asWKT)}'
+                              FILTER (?wktproperty = ogcgs:asWKT) \
+                              FILTER (bif:st_within(?wkt, bif:st_geomfromtext("POLYGON((3.36 51.86,4.42 51.86, 4.42 51.20, 3.36 51.20, 3.36 51.86))")))}}'
                },
                //beeldbank zeeland
                'http://datalab.bibliotheek.nl/bbz': {
                     'name' : 'Beeldbank Zeeland', 
                     'enabled' : true,
 					'icon': 'bbz',
-                    'sparql' : 'SELECT DISTINCT ?collection ?entity ?title ?image ?wktproperty ?subject ?wkt ?date (bif:st_within(?wkt, bif:st_geomfromtext("POLYGON((3.36 51.86,4.42 51.86, 4.42 51.20, 3.36 51.20, 3.36 51.86))"))) \
+                    'sparql' : 'SELECT DISTINCT ?collection ?entity ?title ?image ?wktproperty ?subject ?wkt ?date \
 						 WHERE { GRAPH ?collection { ?entity rdfs:label ?title; ?imageproperty ?image; dcterms:coverage ?coverage; dcterms:date ?date; dcterms:subject ?concept. ?concept a <http://www.w3.org/2004/02/skos/core#Concept>; rdfs:label ?subject . ?coverage ogcgs:hasGeometry ?geometry . ?geometry ?wktproperty ?wkt . \
                          FILTER (?imageproperty = foaf:depiction) . \
-                         FILTER (?wktproperty = ogcgs:asWKT) . }}'
+                         FILTER (?wktproperty = ogcgs:asWKT) . \
+                         FILTER (bif:st_within(?wkt, bif:st_geomfromtext("POLYGON((3.36 51.86,4.42 51.86, 4.42 51.20, 3.36 51.20, 3.36 51.86))")))}}'
                } 
           }
 }
