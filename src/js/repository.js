@@ -88,7 +88,7 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
 						}
 						
 						if(subject == undefined){
-							query += " LIMIT 50 ";
+							query += " LIMIT 1000 ";
 						}
 						query += "}"
                         count++;
