@@ -6,8 +6,11 @@ var isProcessing = false;
 angular.module('elviewer').service('Repository', ['$http', function($http)
 {
         this.defaultCollection = []; 
-        this.spatialFilter = [];
+        this.spatialSelection = [];
+		this.timeSelection = [];
         this.selection = [];
+		
+		this.selectedYears = [];
 
 		this.performSearch = function(subject, spatialExtent)
 		{
@@ -85,7 +88,7 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
 						}
 						
 						if(subject == undefined){
-							query += " LIMIT 1000 ";
+							query += " LIMIT 50 ";
 						}
 						query += "}"
                         count++;
@@ -98,7 +101,7 @@ angular.module('elviewer').service('Repository', ['$http', function($http)
 					query += "FILTER (?subject = \'" + subject + "\')";
 				}
 				query += "\n} LIMIT 2000";
-				console.log(query)
+				//console.log(query)
                 return query;
         }
 

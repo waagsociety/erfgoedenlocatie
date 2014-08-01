@@ -35,8 +35,7 @@ function initGraph()
 	xAxis = d3.svg.axis()
 		.scale(x)
 		.orient("bottom")
-		.ticks(10)
-		.tickFormat(d3.time.format("%Y"));
+		.ticks(10);
 
 	yAxis = d3.svg.axis()
 		.scale(y)
@@ -51,28 +50,47 @@ function initGraph()
 		.append("g")
 		.attr("transform", 
 			"translate(" + margin.left + "," + margin.top + ")");
-		  
-	// var margin = {top: 5, right: 5, bottom: 5, left: 5};
-	// theGraph = d3.select("#chart")
-	    // .append("svg")
-		// .attr("width", width)
-		// .attr("height", height)
-	    // .append("g")
-		// //.attr("transform", "translate(" + margin.left + "," + margin.top + ")");	
 	
 	theGraph.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis)
 	  .selectAll("text")
-	  .style("text-anchor", "middle")
-	  // .attr("dx", "-.8em")
-      // .attr("dy", "-.55em")
-      // .attr("transform", "rotate(-90)" );
+	  .style("text-anchor", "middle");
+}
 
-    // theGraph.append("g")
-      // .attr("class", "y axis")
-      // .call(yAxis);
+function onYearClick(year)
+{
+	var el = document.getElementById('rootContainer');
+	var scope = angular.element(el).scope();
+	
+	var index = scope.Repository.selectedYears.indexOf(year);
+	var barElement = document.getElementById("bar_" + year);
+	
+	if(index != -1)
+	{//deselect
+		scope.Repository.selectedYears.splice(index, 1);
+		barElement.setAttribute("class","bar");
+	}
+	else
+	{//select
+		scope.Repository.selectedYears.push(year);
+		barElement.setAttribute("class","bar-selected");
+	}
+	scope.$apply();
+}
+
+//returns if the year is enabled in the current selection
+function yearInSelection(year)
+{
+	var el = document.getElementById('rootContainer');
+	var scope = angular.element(el).scope();
+	
+	var index = scope.Repository.selectedYears.indexOf(year);
+	var barElement = document.getElementById("bar_" + year);
+	var inside = (index != -1);
+
+	return inside;
 }
 
 function updateTime(collection)
@@ -113,12 +131,6 @@ function updateTime(collection)
 		data.push({'jaar': keys[key], 'aantal': lustrums[keys[key]]})
 	}
 	data = data.sort(keysrt('jaar'));	
-	
-	var parseDate = d3.time.format("%Y").parse;
-	data.forEach(function(d) {
-        d.jaar = parseDate(d.jaar);		
-        d.aantal = +d.aantal;
-    });
 		
 	x.domain(data.map(function(d) { return d.jaar; }));
     y.domain([0, d3.max(data, function(d) { return d.aantal; })]);
@@ -128,7 +140,15 @@ function updateTime(collection)
 		.data(data)
 		.remove()
 		.enter().append("g")
-		.attr("class", "bar")
+		.attr("class", function(d){
+			if(yearInSelection(d.jaar)){
+				return "bar-selected";
+			} else {
+				return "bar"};
+			})
+		.attr("onclick", function(d){return "javascript:onYearClick('" + d.jaar + "')";})
+		.attr("id", function(d){
+			return "bar_" + d.jaar;})
 		.attr("transform", function(d) { return "translate(" + x(d.jaar) + "," + y(d.aantal) + ")"; });
 		
 	bar.append("rect")
@@ -139,27 +159,12 @@ function updateTime(collection)
 	bar.append("text")
 		.attr("dy", ".75em")
 		.attr("y", 6)
-		.attr("x", x(data[0].jaar) / 2)
-		//.attr("text-anchor", "middle")
-		//.text(function(d) { return formatCount(d.aantal); });
-	
-	
+		.attr("x", x(data[0].jaar) / 2);
 	
 	theGraph.append("g")
 		.attr("class", "x axis")
 		.attr("transform", "translate(0," + height + ")")
 		.call(xAxis);
 	
-	// theGraph.selectAll(".bar")
-		 // .data(data)
-		 // .enter().append("rect")
-		 // .attr("class", "bar")
-		 // .attr("x", function(d) { return x(d.jaar); })
-		 // .attr("width", x.rangeBand())
-		 // .attr("y", function(d) { return x(d.aantal); })
-		 // .attr("height", function(d) { return height - y(d.aantal); });
-		 // .attr('y', function(d) { return height - margin.top - margin.bottom - (height - margin.top - margin.bottom - y(d.total)) })
-		 // .attr('width', 10)
-		 // .attr('height', function(d) { return height - margin.top - margin.bottom - y(d.total) });
 
 }

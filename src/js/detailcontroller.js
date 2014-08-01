@@ -41,7 +41,7 @@ angular.module('elviewer').controller('DetailController', ['$scope', '$routePara
     $scope.next = function()
     {
         var index = $scope.itemIndex - 1;
-        var next = Repository.spatialSelection[index+1];
+        var next = Repository.timeSelection[index+1];
 
         if(next == undefined)
         {
@@ -54,7 +54,7 @@ angular.module('elviewer').controller('DetailController', ['$scope', '$routePara
     $scope.previous = function()
     {
         var index = $scope.itemIndex - 1;
-        var previous = Repository.spatialSelection[index - 1];
+        var previous = Repository.timeSelection[index - 1];
         if(previous == undefined)
         {
             return $scope.itemId;
@@ -102,7 +102,7 @@ function bind(itemId,Repository, $scope)
     }*/
 
     //get the index in spatial filter
-    var index = Repository.spatialSelection.indexOf(item);
+    var index = Repository.timeSelection.indexOf(item);
 
     //setup variables for databinding
     $scope.itemIndex = index + 1;

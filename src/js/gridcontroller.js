@@ -8,7 +8,18 @@ angular.module('elviewer').controller('GridController', ['$scope', 'Repository',
     //bind to the single source of data
     $scope.Repository = Repository;
 
-    $scope.$watch('Repository.spatialSelection', 
+	$scope.$watch('Repository.spatialSelection', 
+            function(newValue, oldValue)
+            {
+                if(newValue != undefined)
+                {
+                    $scope.applyTimeFilter();
+                }
+            }, 
+            true
+    );
+	
+    $scope.$watch('Repository.timeSelection', 
             function(newValue, oldValue)
             {
                 if(newValue != undefined)
@@ -18,19 +29,70 @@ angular.module('elviewer').controller('GridController', ['$scope', 'Repository',
             }, 
             true
     );
+	
+	$scope.$watch(
+		'Repository.selectedYears', 
+		function(newValue, oldValue){ 
+			$scope.applyTimeFilter();
+		}, 
+		true
+	);
+	
+	
+	$scope.applyTimeFilter = function()
+	{
+		console.log("before: " + Repository.timeSelection.length);
+		if (Repository.selectedYears.length == 0)
+		{
+			Repository.timeSelection = Repository.spatialSelection;
+		}
+		else
+		{
+			var formatDate = d3.time.format("%Y-%m-%d+%H:%M");
+			
+			//calculate allowed years
+			var allowedYears = [];
+			for(key in $scope.Repository.selectedYears)
+			{
+				var lustrum = parseInt($scope.Repository.selectedYears[key]);			
+				for(var y = lustrum; y < lustrum + 5; y++)
+				{
+					allowedYears.push(y);
+				}
+			}
+
+			var timeSelection = [];
+			
+			for (key in Repository.spatialSelection)
+			{
+				var item = Repository.spatialSelection[key];
+				var parsed = formatDate.parse(item.date);
+				if(parsed){
+					var year = parseInt(parsed.getFullYear());
+					if(allowedYears.indexOf(year) > -1)
+					{
+						timeSelection.push(item);
+					}
+				}
+			};
+			
+			Repository.timeSelection = timeSelection;
+		}
+		console.log("after: " + Repository.timeSelection.length);
+	};
 
     //go to next page of results
     $scope.next = function()
     {
         $scope.page++;
-        var max = Math.floor(Repository.spatialSelection.length/PAGE_SIZE); 
+        var max = Math.floor(Repository.timeSelection.length/PAGE_SIZE); 
         if($scope.page >= max)
         {
             $scope.page = max;
         }
         var start_page = $scope.page * PAGE_SIZE;
         var end_page = start_page + PAGE_SIZE;  
-        Repository.selection = Repository.spatialSelection.slice(start_page,end_page);//randomly picked eight objects for now
+        Repository.selection = Repository.timeSelection.slice(start_page,end_page);//randomly picked eight objects for now
     };
 
     //go to previous page of results
@@ -43,7 +105,7 @@ angular.module('elviewer').controller('GridController', ['$scope', 'Repository',
         }
         var start_page = $scope.page * PAGE_SIZE;
         var end_page = start_page + PAGE_SIZE;  
-        Repository.selection = Repository.spatialSelection.slice(start_page,end_page);//randomly picked eight objects for now
+        Repository.selection = Repository.timeSelection.slice(start_page,end_page);//randomly picked eight objects for now
 
     };
 
@@ -54,9 +116,9 @@ angular.module('elviewer').controller('GridController', ['$scope', 'Repository',
         var page_end = page_start + (PAGE_SIZE - 2);
         var total = 0;
 
-        if(Repository.spatialSelection != undefined)
+        if(Repository.timeSelection != undefined)
         {
-            total = Repository.spatialSelection.length;
+            total = Repository.timeSelection.length;
         }
 
         if($scope.selection != undefined)
