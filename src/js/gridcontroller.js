@@ -113,7 +113,10 @@ angular.module('elviewer').controller('GridController', ['$scope', 'Repository',
     $scope.pageString = function()
     {
         var page_start = ($scope.page * PAGE_SIZE) + 1;
+
         var page_end = page_start + (PAGE_SIZE - 2);
+        
+
         var total = 0;
 
         if(Repository.timeSelection != undefined)
@@ -129,6 +132,11 @@ angular.module('elviewer').controller('GridController', ['$scope', 'Repository',
         if(page_end > total)
         {
             page_end = total;
+        }
+
+        if(page_start > page_end)
+        {
+            page_start = page_end;
         }
 
         return page_start + " - " + page_end + " of " + total ;
