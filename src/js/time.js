@@ -17,12 +17,6 @@ function getKeys(obj, filter) {
     return result;
 }
 
-function keysrt(key,desc) {
-  return function(a,b){
-   return desc ? ~~(a[key] < b[key]) : ~~(a[key] > b[key]);
-  }
-}
-
 function initGraph()
 {	
 	width = 600;
@@ -126,11 +120,10 @@ function updateTime(collection)
 	}
 	keys = getKeys(lustrums);
 	var data = new Array();
-	for (key in keys)
+	for (key in keys.sort())
 	{
-		data.push({'jaar': keys[key], 'aantal': lustrums[keys[key]]})
+		data.push({'jaar': parseInt(keys[key]), 'aantal': lustrums[keys[key]]})
 	}
-	data = data.sort(keysrt('jaar'));	
 		
 	x.domain(data.map(function(d) { return d.jaar; }));
     y.domain([0, d3.max(data, function(d) { return d.aantal; })]);

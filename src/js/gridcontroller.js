@@ -41,7 +41,6 @@ angular.module('elviewer').controller('GridController', ['$scope', 'Repository',
 	
 	$scope.applyTimeFilter = function()
 	{
-		console.log("before: " + Repository.timeSelection.length);
 		if (Repository.selectedYears.length == 0)
 		{
 			Repository.timeSelection = Repository.spatialSelection;
@@ -78,7 +77,6 @@ angular.module('elviewer').controller('GridController', ['$scope', 'Repository',
 			
 			Repository.timeSelection = timeSelection;
 		}
-		console.log("after: " + Repository.timeSelection.length);
 	};
 
     //go to next page of results
