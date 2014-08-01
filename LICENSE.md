@@ -1,4 +1,4 @@
-Copyright (c) 2013 [Waag Society](http://waag.org)
+Copyright (c) 2014 [Waag Society](http://waag.org)
 
 MIT License:
 
