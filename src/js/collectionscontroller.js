@@ -40,13 +40,19 @@ angular.module('elviewer').controller('CollectionsController', ['$scope', 'Repos
     $scope.$watch('Repository.spatialSelection', 
             function(newValue, oldValue)
             {
-                //calls function in ol_marker.js
-                updateMarkers(newValue);
 				updateTime(newValue);
             }, 
             true
     );
 
+	$scope.$watch('Repository.timeSelection', 
+            function(newValue, oldValue)
+            {
+                updateMarkers(newValue);
+            }, 
+            true
+    );
+	
 	$scope.spatialQuery = function(spatialExtent)
 	{
 		Repository.defaultQuery(spatialExtent);
