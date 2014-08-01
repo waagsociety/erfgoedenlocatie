@@ -11,8 +11,7 @@ if(!String.prototype.startsWith){
 }
 
 function initMap() {
-	console.log("map init");
-    var raster = new ol.layer.Tile({
+	var raster = new ol.layer.Tile({
 		source: new ol.source.TileJSON({
 			url: 'http://api.tiles.mapbox.com/v3/coennengerman.h5b45m5e.jsonp',
 			crossOrigin: 'anonymous'
@@ -40,8 +39,7 @@ function initMap() {
 		view: theView
 	});
 	
-	console.log('map size: ' + theMap.getSize());
-    theMap.on('moveend', onMoveEnd);
+	theMap.on('moveend', onMoveEnd);
 	//startExtent = [385000, 6650000, 830000, 7100000]
 	//theView.fitExtent(startExtent, theMap.getSize());
 
@@ -116,7 +114,6 @@ function highlightMarker(item)
 
 function updateMarkers(collection)
 {
-	console.log('update markers');
 	//when the map is not initialized, we cannot add features
 	if(theMap == undefined){return;}
 
@@ -136,8 +133,7 @@ function updateMarkers(collection)
 	
 		newFeature.setId(collection[item].uid);
 		iconType = collection[item].icon;
-		//console.log('icons/' + iconType + '.png');
-
+		
 		newFeature.setStyle(new ol.style.Style({
 			image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
 				src: 'icons/' + iconType + '.png'
@@ -155,9 +151,6 @@ function updateMarkers(collection)
 	});
 
 	theMap.getLayers().push(vector);  
-	//console.log('map size ' + theMap.getSize());
-	//theView.fitExtent(vector.getSource().getExtent(), theMap.getSize());
-	//console.log(theMap);
 }
 
 function onMoveEnd(evt) {
@@ -167,7 +160,6 @@ function onMoveEnd(evt) {
 	var el = document.getElementById('rootContainer');
 	var scope = angular.element(el).scope();
 	scope.spatialQuery(extent_wgs84);
-	//scope.updateSpatialFilter(extent_wgs84);
 	console.log(extent_wgs84);
 	scope.$apply();
 }
