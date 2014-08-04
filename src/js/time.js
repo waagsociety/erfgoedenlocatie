@@ -72,6 +72,12 @@ function onYearClick(year)
 		barElement.setAttribute("class","bar-selected");
 	}
 	scope.$apply();
+
+	//TODO: find better solution
+	if(window.location.href.indexOf('item')  != -1)
+	{
+	    window.location.href = "#/";
+	}
 }
 
 //returns if the year is enabled in the current selection

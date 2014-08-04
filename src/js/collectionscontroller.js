@@ -33,6 +33,12 @@ angular.module('elviewer').controller('CollectionsController', ['$scope', 'Repos
                 {
                     Repository.spatialSelection = Repository.defaultCollection; 
                 }
+                
+                //TODO: find better solution
+                if(window.location.href.indexOf('item')  != -1)
+	        {
+	            window.location.href = "#/";
+	        }
             },true);
 
     //we want to know when the collection changes 
@@ -40,7 +46,7 @@ angular.module('elviewer').controller('CollectionsController', ['$scope', 'Repos
     $scope.$watch('Repository.spatialSelection', 
             function(newValue, oldValue)
             {
-				updateTime(newValue);
+		updateTime(newValue);
             }, 
             true
     );
@@ -48,6 +54,7 @@ angular.module('elviewer').controller('CollectionsController', ['$scope', 'Repos
 	$scope.$watch('Repository.timeSelection', 
             function(newValue, oldValue)
             {
+	        
                 updateMarkers(newValue);
             }, 
             true
