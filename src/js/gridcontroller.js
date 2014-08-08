@@ -14,6 +14,8 @@ angular.module('elviewer').controller('GridController', ['$scope', 'Repository',
                 if(newValue != undefined)
                 {
                     $scope.applyTimeFilter();
+
+                    
                 }
             }, 
             true
@@ -112,7 +114,7 @@ angular.module('elviewer').controller('GridController', ['$scope', 'Repository',
     {
         var page_start = ($scope.page * PAGE_SIZE) + 1;
 
-        var page_end = page_start + (PAGE_SIZE - 2);
+        var page_end = page_start + (PAGE_SIZE - 1);
         
 
         var total = 0;

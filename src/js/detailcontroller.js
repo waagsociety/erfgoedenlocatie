@@ -1,7 +1,6 @@
 angular.module('elviewer').controller('DetailController', ['$scope', '$routeParams', 'Repository',function DetailController($scope, $routeParams, Repository)
 {
     $scope.Repository = Repository;
-
     
     //get the uid from the routing
     var itemId = $routeParams.itemId;
@@ -11,6 +10,8 @@ angular.module('elviewer').controller('DetailController', ['$scope', '$routePara
     {
         //so wait until we have something in memory 
         //before we try to find our item
+        
+
         $scope.$watch('Repository.defaultCollection', function(newValue, oldValue)
         {
             bind(itemId,Repository,$scope);
