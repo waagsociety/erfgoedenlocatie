@@ -1,4 +1,4 @@
-Copyright (c) 2014 [Waag Society](http://waag.org)
+Copyright (c) 2014 [Waag Society](http://waag.org) Waag Society, [KB/SBNL](http://kb.nl) Koninklijke bibliotheek, Stichting Bibliotheken Nederland en [DEN](http://den.nl) Digitaal erfgoed Nederland.
 
 MIT License:
 
