@@ -36,7 +36,7 @@ AngularJs is als MVC gekozen om goede data-binding eigenschappen met interactie-
 0. Clone de repository. Deze bevat import scripts en de javascript applicatie.
 1. Installeer & configureer virtuoso, vanaf de [github repository](https://github.com/openlink/virtuoso-opensource)
 2. Open de Virtuoso command line interface en importeer data in virtuoso met behulp van de bulk loader - een handleiding vind je [hier](http://virtuoso.openlinksw.com/dataspace/doc/dav/wiki/Main/VirtBulkRDFLoader) en een korte uitleg (hier)[http://www.pilod.nl/wiki/Virtuoso_bulk_loader]. Doe geen pogingen de data te importeren via de web-interface (conductor) - deze biedt onvoldoende ondersteuning voor grote(re) bestanden. Kies voor bestanden met geometrieën gecodeerd in GeoSPARQL well-known text format, en data geformatteerd als xsd:date.
-3. Configureer de erfgeoviewer javascript applicatie zodat deze verwijst naar de virtuoso server: pas hiervoor de configuration.js aan. 
-4. Configureer de erfgeoviewer javascript applicatie zodat de SPARQL queries de data correct bevragen die in je Virtuoso-installatie zitten: pas hiervoor de configuration.js aan. 
+3. Configureer de erfgeoviewer javascript applicatie zodat deze verwijst naar de virtuoso server: pas hiervoor de config.js aan. 
+4. Configureer de erfgeoviewer javascript applicatie zodat de SPARQL queries de data correct bevragen die in je Virtuoso-installatie zitten: pas hiervoor de config.js aan. 
 5. Het kan nodig zijn CORS headers te bieden voor je virtuoso server: volg hiervoor [deze aanwijzingen](http://virtuoso.openlinksw.com/dataspace/doc/dav/wiki/Main/VirtTipsAndTricksCORsEnableSPARQLURLs).
 6. Deploy de javascript op een locatie die door Apache2 web server wordt geserveerd
