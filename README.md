@@ -31,11 +31,12 @@ De web-toepassing is voor het overgrote deel gebaseerd op de moderne JavaScript 
 
 AngularJs is als MVC gekozen om goede data-binding eigenschappen met interactie-elementen te verzorgen en front-end filtering toe te passen. D3.Js verzorgt de temporele visualisatie en gebruikersinteractie in een tijdbalk onder de resultaatset.
 
-##Installatie instructies
+##Installatie-instructies
 
 0. Clone de repository. Deze bevat import scripts en de javascript applicatie.
 1. Installeer & configureer virtuoso, vanaf de [github repository](https://github.com/openlink/virtuoso-opensource)
 2. Open de Virtuoso command line interface en importeer data in virtuoso met behulp van de bulk loader - een handleiding vind je [hier](http://virtuoso.openlinksw.com/dataspace/doc/dav/wiki/Main/VirtBulkRDFLoader) en een korte uitleg (hier)[http://www.pilod.nl/wiki/Virtuoso_bulk_loader]. Doe geen pogingen de data te importeren via de web-interface (conductor) - deze biedt onvoldoende ondersteuning voor grote(re) bestanden.
-3. Configureer de erfgeoviewer javascript applicatie zodat deze verwijst naar de virtuoso server
-4. Deploy de javascript in een www locatie van Apache
+3. Configureer de erfgeoviewer javascript applicatie zodat deze verwijst naar de virtuoso server: pas hiervoor de configuration.js aan. 
+4. Het kan nodig zijn CORS headers te bieden voor je virtuoso server: volg hiervoor [deze aanwijzingen](http://virtuoso.openlinksw.com/dataspace/doc/dav/wiki/Main/VirtTipsAndTricksCORsEnableSPARQLURLs).
+5. Deploy de javascript op een locatie die door Apache2 web server wordt geserveerd
 
